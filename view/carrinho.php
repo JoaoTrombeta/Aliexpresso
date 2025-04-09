@@ -1,20 +1,17 @@
-<!-- views/carrinho.php -->
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrinho de Compras</title>
-</head>
-<body>
-    <h1>Carrinho de Compras</h1>
+<?php include 'view/template/header.php'; ?>
+
+<h2>Seu Carrinho</h2>
+
+<?php if (empty($_SESSION['carrinho'])): ?>
+    <p>Seu carrinho está vazio.</p>
+<?php else: ?>
     <ul>
-        <?php foreach ($produtos as $produto): ?>
+        <?php foreach ($_SESSION['carrinho'] as $item): ?>
             <li>
-                <?= $produto->nome ?> - R$ <?= $produto->preco ?>
+                <?php echo $item['nome']; ?> - R$ <?php echo number_format($item['preco'], 2, ',', '.'); ?>
             </li>
         <?php endforeach; ?>
     </ul>
-    <h3>Total: R$ <?= $total ?></h3>
-</body>
-</html>
+<?php endif; ?>
+
+<?php include 'view/template/footer.php'; ?>

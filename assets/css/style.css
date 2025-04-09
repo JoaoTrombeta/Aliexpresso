@@ -7,6 +7,22 @@ body{
     height: 100vh;
 }
 
+nav {
+    background: #2e2e2e;
+    padding: 10px;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+nav span {
+    color: white;
+    margin-right: 15px;
+}
+
 header{
     background-color: #D7B899;
     width: 100%;

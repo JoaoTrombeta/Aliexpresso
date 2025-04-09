@@ -1,25 +1,39 @@
 <?php
-// controllers/ProdutoController.php
-require_once 'model/Produto.php';
+    require_once 'model/Produto.php';
 
-class ProdutoController {
-    public function listarProdutos() {
-        $produtoModel = new Produto();
-        $produtos = $produtoModel->obterTodosProdutos();  // Obter todos os produtos
+    class ProdutoController {
+        public function listar() {
+            $produtos = Produto::listar();
+            include 'view/produto/listar.php';
+        }
 
-        // Passar os dados para a view
-        include 'view/lista_produtos.php';
-    }
+        public function novo() {
+            if (!isset($_SESSION['usuario']) || !in_array($_SESSION['usuario']['tipo'], ['admin', 'funcionario'])) {
+                echo "Acesso negado.";
+                return;
+            }
 
-    public function detalhesProduto($id_produto) {
-        $produtoModel = new Produto();
-        $produto = $produtoModel->obterProdutoPorId($id_produto);
+            include 'view/produto/novo.php';
+        }
 
-        if ($produto) {
-            include 'view/produto_detalhes.php';
-        } else {
-            echo "Produto não encontrado!";
+        public function cadastrar() {
+            if (!isset($_SESSION['usuario']) || !in_array($_SESSION['usuario']['tipo'], ['admin', 'funcionario'])) {
+                echo "Acesso negado.";
+                return;
+            }
+
+            $nome = $_POST['nome'];
+            $descricao = $_POST['descricao'];
+            $preco = $_POST['preco'];
+            $imagem = $_FILES['imagem']['name'];
+
+            if ($imagem) {
+                $caminho = 'assets/img/' . basename($imagem);
+                move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho);
+            }
+
+            Produto::cadastrar($nome, $descricao, $preco, $imagem);
+            header('Location: ?controller=produto&action=listar');
         }
     }
-}
 ?>
