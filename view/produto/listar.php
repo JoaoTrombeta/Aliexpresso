@@ -1,4 +1,6 @@
-<?php include 'view/layout/header.php'; ?>
+<link rel='stylesheet' type='text/css' media='screen' href='./assets/css/produtos.css'>
+
+<?php include 'view/template/header.php'; ?>
 
 <h2>Produtos</h2>
 
@@ -20,4 +22,4 @@
     <?php endforeach; ?>
 </div>
 
-<?php include 'view/layout/footer.php'; ?>
+<?php include 'view/template/footer.php'; ?>

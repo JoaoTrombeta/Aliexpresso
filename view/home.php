@@ -1,4 +1,5 @@
 
+<link rel='stylesheet' type='text/css' media='screen' href='./assets/css/home.css'>
 <body>
     <?php include 'view/template/header.php'; ?>
 

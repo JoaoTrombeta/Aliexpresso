@@ -5,15 +5,18 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Aliexpresso - Home</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/header.css'>
+    <script src="./assets/js/header.js"></script>
 </head>
 <body>
 <header>
     <div class="header-content">
-        <p class="logo">Aliexpresso</p>
+        <a href="index.php">
+            <p class="logo">Aliexpresso</p>
+        </a>
     </div>
-    <nav class="main-nav">
-        <ul class="nav-links">
+    <nav class="main-nav" id="main-nav">
+        <ul class="nav-links" id="nav-links">
             <li><a href="index.php?controller=site&action=home">Início</a></li>
             <li><a href="index.php?controller=produto&action=listar">Produtos</a></li>
             <li><a href="index.php?controller=cliente&action=perfil">Perfil</a></li>
