@@ -9,21 +9,22 @@ body{
 
 nav {
     background: #2e2e2e;
-    padding-top: 10px;
     width: 15vh;
-    height: 100%;
-    position: relative;
+    height: 7.5vh;
+    position: absolute;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: ease-in-out 1s;
+    top: 0px;
+    right: 0px;
     ul{
         display: flex;
         flex-direction: column;
-        position: relative;
-        bottom: -7.5vh;
+        position: absolute;
+        top: 7.5vh;
         height: fit-content;
     }
 }

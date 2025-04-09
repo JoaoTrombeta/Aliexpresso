@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const ODoc = document.querySelector('body')
 
     NavM.addEventListener('click', e => {
-        NavM.style.height = ((document.clientHeight / 100) * 7.5) + NavL.clientHeight + "vh"
-        console.log(((ODoc.clientHeight / 100) * 7.5) + NavL.clientHeight + "px")
-        NavM.style.overflow = "visible"
-        NavL.style.bottom = "0"
+        if(NavM.style.height != ""){
+            NavM.style.height = ""
+        }else{
+            NavM.style.height = ((ODoc.offsetHeight / 100) * 7.7) + NavL.offsetHeight + "px"
+            console.log(NavL.offsetHeight + "px")
+            console.log((ODoc.offsetHeight / 100) * 7.8 + "px")
+        }
     })
 })
