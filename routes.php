@@ -47,6 +47,14 @@
                 case 'perfil':
                     $clienteController->perfil();
                     break;
+                case 'editarPerfil':
+                    $controller->editarPerfil();
+                    break;
+
+                case 'salvarPerfil':
+                    $controller->salvarPerfil();
+                    break;
+
             }
             break;
             

@@ -9,21 +9,27 @@
     <script src="./assets/js/header.js"></script>
 </head>
 <body>
-<header>
-    <div class="header-content">
-        <a href="index.php">
-            <p class="logo">Aliexpresso</p>
-        </a>
+<!-- Primeira barra: Título -->
+<header style="background-color: #d8bb9c; padding: 10px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h1 style="margin: 0; font-size: 40px; color: #4d2c27; text-shadow: 2px 2px #fff;">
+            Aliexpresso
+        </h1>
     </div>
-    <nav class="main-nav" id="main-nav">
-        <ul class="nav-links" id="nav-links">
-            <li><a href="index.php?controller=site&action=home">Início</a></li>
-            <li><a href="index.php?controller=produto&action=listar">Produtos</a></li>
-            <li><a href="index.php?controller=cliente&action=perfil">Perfil</a></li>
-            <li><a href="index.php?controller=pedido&action=historico">Pedidos</a></li>
-            <li><a href="index.php?controller=login&action=logout">Sair</a></li>
-        </ul>
-    </nav>
 </header>
+
+<!-- Segunda barra: Navegação -->
+<div style="background-color: #c9a57b; padding: 10px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <nav>
+            <ul style="list-style: none; padding: 0; margin: 0; display: flex; gap: 20px;">
+                <li><a href="index.php?rota=produtos" style="color: #fff; text-decoration: none;">Produtos</a></li>
+                <li><a href="index.php?rota=perfil" style="color: #fff; text-decoration: none;">Perfil</a></li>
+                <li><a href="index.php?rota=pedidos" style="color: #fff; text-decoration: none;">Pedidos</a></li>
+                <li><a href="index.php?rota=sair" style="color: #fff; text-decoration: none;">Sair</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
 
     <main>
