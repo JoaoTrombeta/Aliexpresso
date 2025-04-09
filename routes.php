@@ -23,14 +23,22 @@
         case 'login':
             $loginController = new LoginController();
             switch ($action) {
-                case 'index':
-                    $loginController->index();
+                case 'login':
+                    require_once 'controller/LoginController.php';
+                    $controller = new LoginController();
+                    $controller->index();
                     break;
+                
                 case 'autenticar':
-                    $loginController->autenticar();
+                    require_once 'controller/LoginController.php';
+                    $controller = new LoginController();
+                    $controller->autenticar();
                     break;
+                
                 case 'sair':
-                    $loginController->sair();
+                    require_once 'controller/LoginController.php';
+                    $controller = new LoginController();
+                    $controller->sair();
                     break;
             }
             break;

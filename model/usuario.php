@@ -3,10 +3,11 @@
 
     class Usuario {
         public static function buscarPorEmail($email) {
-            $pdo = Conexao::conectar();
-            $sql = "SELECT * FROM usuarios WHERE email = ?";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([$email]);
+            $conexao = Conexao::conectar();
+            $sql = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
+            $stmt = $conexao->prepare($sql);
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
