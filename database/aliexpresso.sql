@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/04/2025 às 19:13
+-- Tempo de geração: 09/04/2025 às 20:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -80,15 +80,17 @@ CREATE TABLE `produtos` (
   `nome` varchar(100) NOT NULL,
   `descricao` text DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
-  `imagem` varchar(255) DEFAULT NULL
+  `imagem` varchar(255) DEFAULT NULL,
+  `filtros` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `produtos`
 --
 
-INSERT INTO `produtos` (`id`, `nome`, `descricao`, `preco`, `imagem`) VALUES
-(1, 'Café Expresso', 'Um café rápido de se fazer', 5.50, 'nenhuma');
+INSERT INTO `produtos` (`id`, `nome`, `descricao`, `preco`, `imagem`, `filtros`) VALUES
+(1, 'Café Expresso', 'Um café rápido de se fazer', 5.50, 'nenhuma', '#rapido'),
+(2, 'Café de testes', 'apenas para teste', 9.99, '7070', '#lento');
 
 -- --------------------------------------------------------
 
@@ -177,7 +179,7 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
