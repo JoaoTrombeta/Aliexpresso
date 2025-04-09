@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/04/2025 às 05:17
+-- Tempo de geração: 09/04/2025 às 19:13
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -82,6 +82,13 @@ CREATE TABLE `produtos` (
   `preco` decimal(10,2) NOT NULL,
   `imagem` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id`, `nome`, `descricao`, `preco`, `imagem`) VALUES
+(1, 'Café Expresso', 'Um café rápido de se fazer', 5.50, 'nenhuma');
 
 -- --------------------------------------------------------
 
@@ -170,7 +177,7 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
