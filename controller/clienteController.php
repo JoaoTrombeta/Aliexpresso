@@ -32,5 +32,26 @@
             $cliente = $_SESSION['cliente']; // Dados do cliente logado
             include 'view/cliente/perfil.php';
         }
+
+        public function editarPerfil() {
+            include 'view/cliente/editarPerfil.php';
+        }
+        
+        public function salvarPerfil() {
+            require_once 'model/cliente.php';
+        
+            $id = $_POST['id'];
+            $nome = $_POST['nome'];
+            $email = $_POST['email'];
+            $senha = $_POST['senha'];
+        
+            Cliente::atualizar($id, $nome, $email, $senha);
+        
+            // Atualiza a sessão do cliente
+            $_SESSION['cliente']['nome'] = $nome;
+            $_SESSION['cliente']['email'] = $email;
+        
+            header('Location: index.php?rota=perfil');
+        }
     }
 ?>
