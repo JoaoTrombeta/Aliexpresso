@@ -1,4 +1,4 @@
-<?php include 'view/layout/header.php'; ?>
+<?php include 'view/template/header.php'; ?>
 
 <h2>Login</h2>
 
