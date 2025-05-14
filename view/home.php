@@ -1,4 +1,3 @@
-
 <link rel='stylesheet' type='text/css' media='screen' href='./assets/css/home.css'>
 <body>
     <?php include 'view/template/header.php'; ?>
@@ -32,10 +31,12 @@
 
 <article>
     <!-- Conteúdo adicional futuro -->
+     asdhaishdshfusfufdsfdshfgdsgdsgdsfsfdfdsf
 </article>
 
 <section>
     <!-- Promoções, destaques, etc. -->
+     shijshfishfdiushdjsckjdsnvbvjdsijfdoiwjdoiajsdosanckjdsn
 </section>
 
 <?php include 'view/template/footer.php'; ?>
