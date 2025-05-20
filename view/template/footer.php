@@ -1,5 +1,4 @@
-<link rel='stylesheet' type='text/css' media='screen' href='./assets/css/footer.css'>
-<footer href>
+<footer>
         <section class="fot_top">
             <section class="fot_c">
                 <h5>Atendimento ao Cliente</h5>
@@ -48,6 +47,4 @@
             </section>
         </section>
         <section class="fot_bx"><p>©2025 Aliexpresso. Todos os direitos acadêmicos reservados</p></section>
-    </footer>
-</body>
-</html>
+</footer>
