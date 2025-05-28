@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/04/2025 às 20:02
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Tempo de geração: 28-Maio-2025 às 22:08
+-- Versão do servidor: 10.4.27-MariaDB
+-- versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,42 +24,24 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `clientes`
+-- Estrutura da tabela `carrinho`
 --
 
-CREATE TABLE `clientes` (
+CREATE TABLE `carrinho` (
   `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(255) NOT NULL,
-  `endereco` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `clientes`
---
-
-INSERT INTO `clientes` (`id`, `nome`, `email`, `senha`, `endereco`) VALUES
-(1, 'Maria Joaquina', 'maria@gmail.com', '$2b$12$YDF9P39U81G94.uAXB4uReEIeephDJWdSNBveEK2rFV9P6NYbcgPu', 'Rua dos Cafés, 123');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `itens_pedido`
---
-
-CREATE TABLE `itens_pedido` (
-  `id` int(11) NOT NULL,
-  `id_pedido` int(11) NOT NULL,
   `id_produto` int(11) NOT NULL,
-  `quantidade` int(11) NOT NULL,
-  `preco_unitario` decimal(10,2) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  `qtde` int(11) NOT NULL,
+  `DataAdicao` datetime DEFAULT current_timestamp(),
+  `status` enum('Ativo','Finalizar Pagamento','Pagamento Finalizado') DEFAULT 'Ativo',
+  `DataCompra` datetime DEFAULT NULL,
+  `DataModificacao` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidos`
+-- Estrutura da tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -72,101 +54,88 @@ CREATE TABLE `pedidos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Estrutura da tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
-  `id` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `descricao` text DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
   `imagem` varchar(255) DEFAULT NULL,
-  `filtros` varchar(255) NOT NULL
+  `tipo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `produtos`
+-- Extraindo dados da tabela `produtos`
 --
 
-INSERT INTO `produtos` (`id`, `nome`, `descricao`, `preco`, `imagem`, `filtros`) VALUES
-(1, 'Café Expresso', 'Um café rápido de se fazer', 5.50, 'nenhuma', '#rapido'),
-(2, 'Café de testes', 'apenas para teste', 9.99, '7070', '#lento');
+INSERT INTO `produtos` (`id_produto`, `nome`, `descricao`, `preco`, `imagem`, `tipo`) VALUES
+(1, 'Café Expresso', 'Um café rápido de se fazer', '5.50', 'nenhuma', '#rapido'),
+(2, 'Café de testes', 'apenas para teste', '9.99', '7070', '#lento');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(255) NOT NULL,
+  `endereco` varchar(255) NOT NULL,
   `tipo` enum('admin','funcionario') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `usuarios`
+-- Extraindo dados da tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `tipo`) VALUES
-(1, 'Ademiros', 'admin@gmail.com', '$2b$12$LoXG23w1ZQIMSaV74SPyMunKY2XEpbclk5PGkXjuUDwqmaRgD4c9a', 'admin'),
-(2, 'José', 'jose@gmail.com', '$2b$12$2GHmnEENk.saE6QWzudvaOfwj/3s1sSRe8tZUwtAM3H6YQA0tRwQu', 'funcionario');
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `endereco`, `tipo`) VALUES
+(1, 'Ademiros', 'ademiros@gmail.com', '$2b$12$LoXG23w1ZQIMSaV74SPyMunKY2XEpbclk5PGkXjuUDwqmaRgD4c9a', 'Rua dos admins, 130', 'admin'),
+(2, 'José', 'jose@gmail.com', '$2b$12$2GHmnEENk.saE6QWzudvaOfwj/3s1sSRe8tZUwtAM3H6YQA0tRwQu', 'Rua dos Funfas, 08', 'funcionario');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `clientes`
+-- Índices para tabela `carrinho`
 --
-ALTER TABLE `clientes`
+ALTER TABLE `carrinho`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD KEY `id_produto` (`id_produto`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices de tabela `itens_pedido`
---
-ALTER TABLE `itens_pedido`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_pedido` (`id_pedido`),
-  ADD KEY `id_produto` (`id_produto`);
-
---
--- Índices de tabela `pedidos`
+-- Índices para tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_cliente` (`id_cliente`);
 
 --
--- Índices de tabela `produtos`
+-- Índices para tabela `produtos`
 --
 ALTER TABLE `produtos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_produto`);
 
 --
--- Índices de tabela `usuarios`
+-- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id_usuario`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT de tabela `clientes`
+-- AUTO_INCREMENT de tabela `carrinho`
 --
-ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `itens_pedido`
---
-ALTER TABLE `itens_pedido`
+ALTER TABLE `carrinho`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -179,30 +148,30 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Restrições para tabelas despejadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `itens_pedido`
+-- Limitadores para a tabela `carrinho`
 --
-ALTER TABLE `itens_pedido`
-  ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id`),
-  ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
+ALTER TABLE `carrinho`
+  ADD CONSTRAINT `carrinho_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`),
+  ADD CONSTRAINT `carrinho_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
--- Restrições para tabelas `pedidos`
+-- Limitadores para a tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `usuarios` (`id`);
+  ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `usuarios` (`id_usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
