@@ -1,74 +1,110 @@
-*{
-    margin: 0px;
-    padding: 0px;
+:root {
+    --cor-primaria: #5D4037;
+    --cor-destaque: #8D6E63;
+    --cor-fundo: #F3E5AB;
+    --cor-texto: #333;
 }
-body{
-    width: 100%;
-    height: 100vh;
-}
-main{
-    background-color: #faf7f2;
-    width: 100%;
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.top-3-vendas{
-    width: 80%;
-    height: 45%;
-    background-color: #f5e6cc;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    h1{
-        font-size: 4vh;
-        width: 100%;
-        text-align: center;
-        margin-top: none;
-    }
-    .big-three{
-        width: 100%;
-        height: 80%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
 
-        .top3{
-            width: 25%;
-            display: flex;
-            flex-direction: column-reverse;
-            color: #f5e6cc;
-            transition: ease-in-out 1s;
-            .podio{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-            }
-            img{
-                width: 25%;
-                max-width: 25%;
-                height: 25%;
-                max-height: 50%;
-                outline: none;
-            }
-        }
-        .top3:nth-child(1) .podio{
-            height: 33%;
-            background-color: #6f4e37;
-            font-size: 30px;
-        }
-        .top3:nth-child(2) .podio{
-            height: 44%;
-            background-color: #4b2e2e;
-            font-size: 40px;
-        }
-        .top3:nth-child(3) .podio{
-            height: 22%;
-            background-color: #8b5e3c;
-            font-size: 20px;
-        }
-    }
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+}
+
+header {
+    background-color: var(--cor-primaria);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    margin-top: 0.5rem;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Banner */
+.banner {
+    background-image: url('../../assets/img/banner-cafe.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.banner-conteudo {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2rem;
+    border-radius: 12px;
+}
+
+.banner h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.banner p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    background-color: var(--cor-destaque);
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--cor-primaria);
+}
+
+/* Seção Sobre */
+.sobre {
+    padding: 3rem 2rem;
+    background-color: var(--cor-fundo);
+    text-align: center;
+}
+
+.grid-beneficios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+footer {
+    background-color: var(--cor-primaria);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
 }
