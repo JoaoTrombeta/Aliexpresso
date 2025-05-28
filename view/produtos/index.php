@@ -11,7 +11,7 @@
         <nav>
             <a href="index.php?page=home">Home</a>
             <a href="index.php?page=produtos">Produtos</a>
-            <a href="#">Carrinho</a>
+            <a href="index.php?page=Carrinho">Carrinho</a>
         </nav>
     </header>
 

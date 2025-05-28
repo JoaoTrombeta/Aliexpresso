@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>AliExpresso - Home</title>
-    <link rel="stylesheet" href="./assets/css/home.css">
+    <link rel="stylesheet" href="./assets/css/carrinho.css">
 </head>
 <body>
     <header>

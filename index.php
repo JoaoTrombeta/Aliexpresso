@@ -15,6 +15,12 @@ switch($page) {
         $controller = new ProdutoController();
         $controller->index();
         break;
+        
+    case 'Carrinho':
+        require_once './view/Carrinho/index.php';
+        $controller = new ProdutoController();
+        $controller->index();
+        break;
 
     case 'home':
     default:
