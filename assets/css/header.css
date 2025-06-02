@@ -1,143 +1,130 @@
-* {
-    margin: 0px;
-    padding: 0px;
-}
-
-body {
-    width: 100%;
-    height: 100vh;
-}
-
-nav {
-    padding: 10px;
-}
-
-nav a {
-    color: white;
-    margin-right: 15px;
-    text-decoration: none;
-}
-
-nav span {
-    color: white;
-    margin-right: 15px;
-}
-
-/* Estilo do header principal */
 header {
-    background-color: #D7B899;
+    background-color: var(--cor-primaria); /* Cor marrom principal */
+    color: white;
     width: 100%;
-    height: 7.5%;
+    padding-left: 0rem;  /* Padding esquerdo geral do header */
+    padding-right: 0rem; /* Padding direito geral do header (pode ser menor se preferir que o margin controle mais) */
     display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    overflow: visible;
+    justify-content: flex-start; /* Mantém logo à esquerda e .header-right à direita */
+    position: relative;
+    z-index: 1000;
 }
 
-/* Remove o aninhamento inválido do CSS padrão */
-header a {
+/* Estilos para .site-logo e seu h1 (como corrigido anteriormente para cores) */
+header .site-logo {
     text-decoration: none;
 }
 
-header a p {
-    width: 50%;
-    height: 100%;
-    font-size: 6vh;
+header .site-logo h1 {
+    font-size: 2rem;
     font-weight: bolder;
-    color: #f5e6cc;
-    text-shadow: #4b2e2e -4px 4px;
+    color: white;
+    margin: 0;
+    margin-left: 5vh;
 }
 
-/* Container interno do header */
-.header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Ícones e menu à direita */
+/* Bloco do lado direito contendo o ícone de usuário e dropdown */
 .header-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px; /* Espaço entre elementos dentro de .header-right, se houver mais de um */
+    margin-left: auto;
+    margin-right: 5vh;
 }
 
-/* Ícone do carrinho */
-.icon {
+/* Estilos para .user-icon, .menu-container, .dropdown-menu permanecem como antes */
+.icon { /* Estilo base para ícones */
     width: 30px;
     height: 30px;
-}
-
-/* Menu hambúrguer */
-.menu-icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.menu-icon span {
     display: block;
-    height: 3px;
-    width: 100%;
-    background-color: #fff;
-    transition: all 0.3s ease;
-    border-radius: 2px;
 }
 
-/* Efeito ao ativar */
-.menu-icon.active span:nth-child(1) {
-  transform: rotate(45deg) translateY(7px);
-}
-
-.menu-icon.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.menu-icon.active span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-7px);
-}
-
-.menu-icon span {
-    transition: all 0.3s ease;
+.user-icon {
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
 }
 
 .menu-container {
     position: relative;
-    display: flex;
-    align-items: center;
 }
 
-
-/* Dropdown de opções */
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 35px; /* logo abaixo do ícone */
-    right: 0;
+    top: calc(100% + 10px); /* Abaixo do ícone/header */
+    right: 0; /* Alinha o dropdown à direita do .header-right */
     background-color: #c79f6b;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     padding: 10px;
-    z-index: 100;
+    z-index: 100; 
+    min-width: 180px;
 }
 
 .dropdown-menu a {
     display: block;
     color: white;
     text-decoration: none;
-    padding: 8px 15px;
-    font-size: 16px;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
 }
 
 .dropdown-menu a:hover {
     background-color: #b0885b;
-    border-radius: 8px;
+}
+
+/* Estilo para o link do ícone do carrinho */
+.header-cart-icon-link {
+    color: white; /* Para o ícone herdar a cor branca, como outros ícones/texto do header */
+    text-decoration: none;
+    position: relative; /* Útil se você adicionar o .cart-badge no futuro */
+    display: flex;      /* Para alinhar bem o ícone e o badge, se usado */
+    align-items: center;
+}
+
+/* Opcional: Estilos para o badge de contagem de itens no carrinho */
+.cart-badge {
+    position: absolute;
+    top: -8px;          /* Ajuste para posicionar o badge acima do ícone */
+    right: -8px;         /* Ajuste para posicionar o badge à direita do ícone */
+    background-color: red; /* Ou uma cor de destaque da sua paleta, ex: var(--cor-destaque) */
+    color: white;
+    border-radius: 50%;  /* Para fazer um círculo */
+    padding: 1px 5px;    /* Espaçamento interno do badge */
+    font-size: 0.65rem;  /* Tamanho da fonte bem pequeno para o número */
+    font-weight: bold;
+    line-height: 1;      /* Para ajudar na centralização vertical do número */
+    min-width: 16px;     /* Garante que o círculo pareça bom mesmo com 1 dígito */
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.header-cart-icon-link {
+    color: white;
+    text-decoration: none;
+    position: relative; /* Para o posicionamento absoluto do badge */
+    display: inline-flex; /* Garante que o ícone se comporte como um bloco em linha */
+    align-items: center; /* Centraliza verticalmente o ícone com outros elementos dentro do link (se houver) */
+}
+
+.cart-icon {
+    font-size: 1.4rem; /* Ajuste conforme necessário */
+    line-height: 1;
+}
+
+.user-icon { /* Certifique-se de que o estilo do user-icon também contribui para o alinhamento */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    display: inline-block; /* Mudamos para inline-block para melhor alinhamento em flex */
+    vertical-align: middle; /* Tenta alinhar na metade da altura da linha */
 }

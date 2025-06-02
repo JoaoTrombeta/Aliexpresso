@@ -4,15 +4,30 @@
     <meta charset="UTF-8">
     <title>AliExpresso - Home</title>
     <link rel="stylesheet" href="./assets/css/home.css">
+    <link rel="stylesheet" href="./assets/css/header.css">
+    <link rel="stylesheet" href="./assets/css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
+    <a href="index.php?page=home" class="site-logo">
         <h1>AliExpresso</h1>
-        <nav>
-            <a href="index.php?page=home">Home</a>
-            <a href="index.php?page=produtos">Produtos</a>
-            <a href="index.php?page=Carrinho">Carrinho</a>
-        </nav>
+    </a>
+    <div class="header-right">
+        <a href="index.php?page=Carrinho" class="header-cart-icon-link" aria-label="Carrinho de Compras">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-badge" id="cartItemCount">0</span> 
+        </a>
+
+        <img src="https://placehold.co/30x30/eeeeee/777777?text=User" alt="Usuário" class="icon user-icon" id="userIconTrigger">
+        <div class="menu-container"> <nav class="dropdown-menu" id="userDropdownMenu">
+                <a href="#">Meu Perfil</a>
+                <a href="#">Meus Pedidos</a>
+                <a href="#">Configurações</a>
+                <a href="index.php?page=logout">Sair</a>
+            </nav>
+        </div>
+    </div>
     </header>
 
 
@@ -47,5 +62,6 @@
     <footer>
         <p>&copy; 2025 AliExpresso. Todos os direitos reservados.</p>
     </footer>
+    <script src="./assets/js/header.js"></script>
 </body>
 </html>
