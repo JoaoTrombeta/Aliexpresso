@@ -5,6 +5,7 @@ require_once './model/ProdutoFactory.php';
 class ProdutoController {
     public function index() {
         // Simulando produtos (normalmente viriam do banco)
+        // Parou para ler? Ta com tempo ein.... 
         $produtos = [
             ProdutoFactory::criarProduto([
                 'id' => 1,
