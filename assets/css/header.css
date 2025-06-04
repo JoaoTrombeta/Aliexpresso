@@ -1,14 +1,18 @@
+:root {
+    --cor-primaria: #5D4037;
+    --cor-destaque: #a67c52;
+    --cor-botao-fundo: var(--cor-destaque);
+}
+
 header {
     background-color: var(--cor-primaria); /* Cor marrom principal */
     color: white;
     width: 100%;
-    padding-left: 0rem;  /* Padding esquerdo geral do header */
-    padding-right: 0rem; /* Padding direito geral do header (pode ser menor se preferir que o margin controle mais) */
     display: flex;
     align-items: center;
     justify-content: flex-start; /* Mantém logo à esquerda e .header-right à direita */
     position: relative;
-    z-index: 1000;
+    box-sizing: border-box; /* Evita a barra horizontal do site */
 }
 
 /* Estilos para .site-logo e seu h1 (como corrigido anteriormente para cores) */
@@ -21,7 +25,6 @@ header .site-logo h1 {
     font-weight: bolder;
     color: white;
     margin: 0;
-    margin-left: 5vh;
 }
 
 /* Bloco do lado direito contendo o ícone de usuário e dropdown */
@@ -30,7 +33,6 @@ header .site-logo h1 {
     align-items: center;
     gap: 15px; /* Espaço entre elementos dentro de .header-right, se houver mais de um */
     margin-left: auto;
-    margin-right: 5vh;
 }
 
 /* Estilos para .user-icon, .menu-container, .dropdown-menu permanecem como antes */

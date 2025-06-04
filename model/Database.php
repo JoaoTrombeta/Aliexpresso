@@ -6,7 +6,8 @@ class Database {
     private function __construct() {
         try {
             // Correto: especificar a porta com ";port=3306"
-            $this->conn = new PDO('mysql:host=172.16.1.105;port=3306;dbname=aliexpresso', 'root', '');
+            //$this->conn = new PDO('mysql:host=172.16.1.105;port=3306;dbname=aliexpresso', 'root', '');
+            $this->conn = new PDO('mysql:host=localhost;port=3306;dbname=aliexpresso', 'root', '');
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Erro na conexão: " . $e->getMessage());

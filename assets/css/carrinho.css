@@ -1,9 +1,8 @@
 :root {
-    --cor-primaria: #6f4e37;
+    --cor-primaria: #5D4037;
     --cor-secundaria: #c8b6a6;
     --cor-fundo: #f5f3f0;
     --cor-texto: #3e2c20;
-    --cor-destaque: #a67c52;
 }
 
 * {
@@ -16,30 +15,6 @@
 body {
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
-}
-
-header {
-    background-color: var(--cor-primaria);
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    font-size: 2rem;
-}
-
-header nav a {
-    color: white;
-    margin-left: 1.5rem;
-    text-decoration: none;
-    transition: opacity 0.3s;
-}
-
-header nav a:hover {
-    opacity: 0.7;
 }
 
 main {
@@ -90,7 +65,7 @@ h2 {
 }
 
 .card button {
-    background-color: var(--cor-primaria);
+    background-color: var(--cor-destaque);
     color: white;
     border: none;
     padding: 0.5rem 1rem;
