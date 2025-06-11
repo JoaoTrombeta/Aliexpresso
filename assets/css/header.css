@@ -28,6 +28,11 @@ header .site-logo h1 {
     margin-left: 5vh;
 }
 
+header .site-logo img {
+    height: 10vh;
+    width: 20vw;
+}
+
 /* Bloco do lado direito contendo o ícone de usuário e dropdown */
 .header-right {
     display: flex;
