@@ -13,6 +13,7 @@ header {
     justify-content: flex-start; /* Mantém logo à esquerda e .header-right à direita */
     position: relative;
     box-sizing: border-box; /* Evita a barra horizontal do site */
+    height: 10vh;
 }
 
 /* Estilos para .site-logo e seu h1 (como corrigido anteriormente para cores) */
@@ -24,7 +25,7 @@ header .site-logo h1 {
     font-size: 2rem;
     font-weight: bolder;
     color: white;
-    margin: 0;
+    margin-left: 5vh;
 }
 
 /* Bloco do lado direito contendo o ícone de usuário e dropdown */
@@ -33,6 +34,7 @@ header .site-logo h1 {
     align-items: center;
     gap: 15px; /* Espaço entre elementos dentro de .header-right, se houver mais de um */
     margin-left: auto;
+    margin-right: 5vh ;
 }
 
 /* Estilos para .user-icon, .menu-container, .dropdown-menu permanecem como antes */

@@ -88,12 +88,3 @@ nav a:hover {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-
-/* Footer */
-/*footer {
-    background-color: var(--cor-primaria);
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
-}
