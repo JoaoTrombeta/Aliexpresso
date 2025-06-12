@@ -3,7 +3,7 @@
         echo '
     <header>
         <a href="index.php?page=home" class="site-logo">
-            <h1><img src="./assets/img/logo_aliexpresso.png">AliExpresso</h1>
+            <h1><img src="./assets/img/logo_aliexpresso.png"></h1>
         </a>
         <div class="header-right">
             <a href="index.php?page=Carrinho" class="header-cart-icon-link" aria-label="Carrinho de Compras">
