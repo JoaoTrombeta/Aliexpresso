@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 04/06/2025 às 01:37
+-- Tempo de geração: 21/06/2025 às 04:54
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -109,10 +109,16 @@ CREATE TABLE `usuarios` (
   `nome` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `tipo` enum('admin','cliente','vendedor') DEFAULT 'cliente',
-  `data_cadastro` datetime DEFAULT current_timestamp(),
-  `status` enum('ativo','inativo') DEFAULT 'ativo'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `tipo` enum('cliente','vendedor','gerente','admin') NOT NULL DEFAULT 'cliente',
+  `data_cadastro` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `data_cadastro`) VALUES
+(1, 'Trombeta', 'trombeta@gmail.com', '$2y$10$Ll9ok3BoO/LBsBJZbn4BCuaYEX.CY8aHpO/yYb2aLeBiXA5ojJGSm', 'cliente', '2025-06-20 23:05:40');
 
 --
 -- Índices para tabelas despejadas
@@ -201,7 +207,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para tabelas despejadas
