@@ -19,7 +19,7 @@
             <div class="banner-conteudo">
                 <h2>Seja Bem-vindo ao AliExpresso</h2>
                 <p>O seu e-commerce favorito de produtos com cafeína, para quem vive acelerado e produtivo.</p>
-                <a href="index.php?page=produtos" class="btn">Ver Produtos</a>
+                <a href="index.php?page=produto" class="btn">Ver Produtos</a>
             </div>
         </section>
 

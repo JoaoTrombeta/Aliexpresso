@@ -1,29 +1,22 @@
 <?php
-class Produto {
-    public $id;
-    public $nome;
-    public $descricao;
-    public $preco;
-    public $imagem;
+    namespace Aliexpresso\Model;
 
-    public function __construct($id, $nome, $descricao, $preco, $imagem) {
-        $this->id = $id;
-        $this->nome = $nome;
-        $this->descricao = $descricao;
-        $this->preco = $preco;
-        $this->imagem = $imagem;
-    }
-}
+    use Aliexpresso\Model\Produtos\ProdutoCafeina;
+    use Aliexpresso\Model\Produtos\CafeEmGraos;
+    use InvalidArgumentException;
 
-class ProdutoFactory {
-    public static function criarProduto($dados) {
-        return new Produto(
-            $dados['id'],
-            $dados['nome'],
-            $dados['descricao'],
-            $dados['preco'],
-            $dados['imagem']
-        );
+    class ProdutoFactory {
+        public static function criar(string $tipo, string $nome, string $descricao, float $preco, string $imagem): ProdutoCafeina {
+            switch (strtolower($tipo)) {
+                case 'graos':
+                    return new CafeEmGraos($nome, $descricao, $preco, $imagem);
+                
+                case 'capsula':
+                    return new CapsulaCafe($nome, $descricao, $preco, $imagem);
+                
+                default:
+                    throw new InvalidArgumentException("Tipo de produto '{$tipo}' inválido.");
+            }
+        }
     }
-}
 ?>

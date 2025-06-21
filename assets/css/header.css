@@ -1,5 +1,5 @@
 :root {
-    --cor-primaria: #5D4037;
+    --cor-primaria: #c4ae8e;
     --cor-destaque: #a67c52;
     --cor-botao-fundo: var(--cor-destaque);
 }
@@ -29,7 +29,7 @@ header .site-logo h1 {
 }
 
 header .site-logo img {
-    height: 10vh;
+    height: 8vh;
     width: 20vw;
 }
 
@@ -75,7 +75,7 @@ header .site-logo img {
 .dropdown-menu a {
     display: block;
     color: white;
-    text-decoration: none;
+    text-decoration: none !important;
     padding: 10px 15px;
     font-size: 0.95rem;
     border-radius: 6px;
