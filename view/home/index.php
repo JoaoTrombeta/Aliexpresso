@@ -1,6 +1,4 @@
-<?php
-    require_once __DIR__ . "/../../controller/pageController.php";
-?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -12,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php renderHeader(); ?>
+    <?php \Aliexpresso\Controller\PageController::renderHeader(); ?>
 
     <main>
         <section class="banner">
@@ -42,9 +40,7 @@
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 AliExpresso. Todos os direitos reservados.</p>
-    </footer>
+    <?php \Aliexpresso\Controller\PageController::renderFooter(); ?>
     <script src="./assets/js/header.js"></script>
 </body>
 </html>

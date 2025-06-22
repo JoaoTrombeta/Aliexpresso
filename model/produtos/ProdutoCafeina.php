@@ -1,6 +1,6 @@
 <?php
     // model/produtos/ProdutoCafeina.php
-    namespace Aliexpresso\Models\Produtos;
+    namespace Aliexpresso\Model\Produtos;
 
     interface ProdutoCafeina {
         public function getNome(): string;

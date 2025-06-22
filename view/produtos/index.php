@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <?php renderHeader(); ?>
+    <?php \Aliexpresso\Controller\PageController::renderHeader(); ?>
 
     <main>
         <h2>Produtos</h2>
@@ -29,9 +29,7 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Aliexpresso. Todos os direitos reservados.</p>
-    </footer>
+    <?php \Aliexpresso\Controller\PageController::renderFooter(); ?>
     <script src="./assets/js/header.js"></script>
 </body>
 </html>

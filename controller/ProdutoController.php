@@ -28,7 +28,7 @@
 
             foreach ($dadosDoBanco as $dado) {
                 $produtos[] = ProdutoFactory::criar(
-                    $dado['tipo'],
+                    $dado['tipo'], 
                     $dado['nome'],
                     $dado['descricao'],
                     $dado['preco'],
@@ -37,7 +37,7 @@
             }
 
             // Carrega a view, que agora pode estar em um caminho mais limpo
-            require_once __DIR__ . '/../view/produtos/catalogo.php';
+            require_once __DIR__ . '/../view/produtos/index.php';
         }
     }
 ?>

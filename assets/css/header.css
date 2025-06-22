@@ -1,5 +1,5 @@
 :root {
-    --cor-primaria: #c4ae8e;
+    --cor-primaria: #c1a478;
     --cor-destaque: #a67c52;
     --cor-botao-fundo: var(--cor-destaque);
 }
@@ -60,30 +60,49 @@ header .site-logo img {
 }
 
 .dropdown-menu {
-    display: none;
+    display: none; /* Mantém o menu escondido por padrão */
     position: absolute;
-    top: calc(100% + 10px); /* Abaixo do ícone/header */
-    right: 0; /* Alinha o dropdown à direita do .header-right */
-    background-color: #c79f6b;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: #c79f6b; /* Cor de fundo do dropdown */
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    padding: 10px;
+    box-shadow: 0 4px S10px rgba(0, 0, 0, 0.15);
+    padding: 10px 0; /* Ajustado para dar espaço interno vertical */
     z-index: 100; 
     min-width: 180px;
+    border: 1px solid rgba(0,0,0,0.05); /* Borda sutil */
 }
 
+/* [NOVA REGRA] Quando o menu tiver a classe 'show', ele se torna visível */
+.dropdown-menu.show {
+    display: block;
+}
+
+/* [CORREÇÃO] Seletor mais específico para os links, garantindo que a regra seja aplicada */
 .dropdown-menu a {
     display: block;
-    color: white;
-    text-decoration: none !important;
-    padding: 10px 15px;
+    color: white !important; /* Força a cor branca */
+    text-decoration: none !important; /* Força a remoção do sublinhado */
+    padding: 10px 20px;
     font-size: 0.95rem;
-    border-radius: 6px;
+    background-color: transparent;
     transition: background-color 0.2s ease;
+    text-align: left; /* Alinha o texto à esquerda */
 }
 
+/* Efeito hover para os links */
 .dropdown-menu a:hover {
-    background-color: #b0885b;
+    background-color: #b0885b; /* Um tom um pouco mais escuro ao passar o mouse */
+}
+
+/* [NOVO] Estilo para o nome do usuário, que não é um link clicável */
+.dropdown-menu .user-info {
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #5D4037; /* Um marrom escuro para o nome */
+    border-bottom: 2px solid rgba(255, 255, 255, 0.629); /* Linha separadora */
+    margin-bottom: 5px; /* Espaço abaixo do nome */
+    text-align: left;
 }
 
 /* Estilo para o link do ícone do carrinho */

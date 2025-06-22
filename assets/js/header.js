@@ -1,26 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const userIconTrigger = document.getElementById('userIconTrigger');
-    const userDropdownMenu = document.getElementById('userDropdownMenu');
+    
+    // Seleciona os elementos do DOM necessários
+    const userIcon = document.getElementById('userIconTrigger');
+    const dropdownMenu = document.getElementById('userDropdownMenu');
 
-    if (userIconTrigger && userDropdownMenu) {
-        userIconTrigger.addEventListener('click', function(event) {
-            event.stopPropagation(); // Impede que o clique feche o menu imediatamente (ver abaixo)
-            // Alterna a exibição do dropdown
-            userDropdownMenu.style.display = userDropdownMenu.style.display === 'block' ? 'none' : 'block';
-        });
-
-        // Opcional: Fecha o dropdown se clicar fora dele
-        document.addEventListener('click', function(event) {
-            if (userDropdownMenu.style.display === 'block' && !userIconTrigger.contains(event.target) && !userDropdownMenu.contains(event.target)) {
-                userDropdownMenu.style.display = 'none';
-            }
-        });
-
-        // Opcional: Fecha o dropdown se a tecla 'Escape' for pressionada
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && userDropdownMenu.style.display === 'block') {
-                userDropdownMenu.style.display = 'none';
-            }
-        });
+    // Se os elementos não existirem, não faz nada.
+    if (!userIcon || !dropdownMenu) {
+        console.error('Elementos do dropdown não encontrados. Verifique os IDs "userIconTrigger" e "userDropdownMenu" no seu HTML.');
+        return;
     }
+
+    // Ação ao clicar no ícone do usuário
+    userIcon.addEventListener('click', function(event) {
+        // Impede que o clique se propague para outros elementos (como a janela)
+        event.stopPropagation();
+        // Adiciona ou remove a classe 'show' do menu
+        dropdownMenu.classList.toggle('show');
+    });
+
+    // Ação ao clicar em qualquer lugar da janela
+    window.addEventListener('click', function(event) {
+        // Se o menu está visível E o clique foi FORA dele, esconde o menu.
+        if (dropdownMenu.classList.contains('show')) {
+            dropdownMenu.classList.remove('show');
+        }
+    });
+
+    // Impede que cliques DENTRO do menu o fechem
+    dropdownMenu.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
 });
