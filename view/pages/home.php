@@ -1,23 +1,14 @@
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
     <title>AliExpresso - Home</title>
     <link rel="stylesheet" href="./assets/css/home.css">
-    <link rel="stylesheet" href="./assets/css/header.css">
-    <link rel="stylesheet" href="./assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <?php \Aliexpresso\Controller\PageController::renderHeader(); ?>
 
     <main>
         <section class="banner">
             <div class="banner-conteudo">
                 <h2>Seja Bem-vindo ao AliExpresso</h2>
                 <p>O seu e-commerce favorito de produtos com cafeína, para quem vive acelerado e produtivo.</p>
-                <a href="index.php?page=produto" class="btn">Ver Produtos</a>
+                <a href="index.php?page=produtos" class="btn">Ver Produtos</a>
             </div>
         </section>
 
@@ -40,7 +31,4 @@
         </section>
     </main>
 
-    <?php \Aliexpresso\Controller\PageController::renderFooter(); ?>
     <script src="./assets/js/header.js"></script>
-</body>
-</html>

@@ -1,22 +1,34 @@
 <?php
-    namespace Aliexpresso\Model;
+namespace Aliexpresso\Model;
 
-    use Aliexpresso\Model\Produtos\ProdutoCafeina;
-    use Aliexpresso\Model\Produtos\CafeEmGraos;
-    use InvalidArgumentException;
+// Importa as classes que a fábrica pode construir
+use Aliexpresso\Model\Produtos\Cafe;
+use Aliexpresso\Model\Produtos\Grao;
+use Aliexpresso\Model\Produtos\Energetico;
+use InvalidArgumentException;
 
-    class ProdutoFactory {
-        public static function criar(string $tipo, string $nome, string $descricao, float $preco, string $imagem): ProdutoCafeina {
-            switch (strtolower($tipo)) {
-                case 'graos':
-                    return new CafeEmGraos($nome, $descricao, $preco, $imagem);
-                
-                case 'capsula':
-                    return new CapsulaCafe($nome, $descricao, $preco, $imagem);
-                
-                default:
-                    throw new InvalidArgumentException("Tipo de produto '{$tipo}' inválido.");
-            }
+class ProdutoFactory {
+    /**
+     * Cria uma instância de um produto com base na categoria.
+     * @param array $dadosProduto Os dados vindos do banco.
+     * @return ProdutoInterface A instância do produto criada.
+     */
+    public static function criar(array $dadosProduto): ProdutoInterface {
+        // A lógica agora usa o campo "categoria"
+        if (!isset($dadosProduto['categoria'])) {
+            throw new InvalidArgumentException("O campo 'categoria' é obrigatório nos dados do produto.");
+        }
+
+        switch ($dadosProduto['categoria']) {
+            case 'café':
+                return new Cafe($dadosProduto);
+            case 'grão':
+                return new Grao($dadosProduto);
+            case 'energético':
+                return new Energetico($dadosProduto);
+            default:
+                // Trata casos de categorias não esperadas
+                throw new InvalidArgumentException("Categoria de produto desconhecida: " . $dadosProduto['categoria']);
         }
     }
-?>
+}
