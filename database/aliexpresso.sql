@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 21/06/2025 às 04:54
+-- Tempo de geração: 23/06/2025 às 06:29
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -95,8 +95,15 @@ CREATE TABLE `produtos` (
   `categoria` varchar(50) DEFAULT NULL,
   `id_vendedor` int(11) DEFAULT NULL,
   `imagem` varchar(255) DEFAULT NULL,
-  `status` enum('ativo','inativo') DEFAULT 'ativo'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` enum('a venda','descontinuado') DEFAULT 'a venda'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `produtos`
+--
+
+INSERT INTO `produtos` (`id_produto`, `nome`, `descricao`, `preco`, `quantidade_estoque`, `categoria`, `id_vendedor`, `imagem`, `status`) VALUES
+(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', 20.00, 100, 'graos', NULL, 'assets/images/produtos/6858d2df39579-Chocolate C amargo.png', 'a venda');
 
 -- --------------------------------------------------------
 
@@ -118,7 +125,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `data_cadastro`) VALUES
-(1, 'Trombeta', 'trombeta@gmail.com', '$2y$10$Ll9ok3BoO/LBsBJZbn4BCuaYEX.CY8aHpO/yYb2aLeBiXA5ojJGSm', 'cliente', '2025-06-20 23:05:40');
+(1, 'Trombeta', 'trombeta@gmail.com', '$2y$10$Ll9ok3BoO/LBsBJZbn4BCuaYEX.CY8aHpO/yYb2aLeBiXA5ojJGSm', 'cliente', '2025-06-20 23:05:40'),
+(2, 'Ademiros', 'admin@gmail.com', '$2y$10$X2iV02mfs4Ih4fuNtn1p5uNtisYF7v5uIslyLr8/FmOk0UeqdhmPm', 'admin', '2025-06-21 20:57:29'),
+(3, 'Geraldo', 'gerente@gmail.com', '$2y$10$FxOZo.RKkSN4kS3.51rlzOfkk2sAfbtsrsulQPvGDVvtcIRyyKVCq', 'gerente', '2025-06-21 21:41:47'),
+(4, 'Vergil', 'vendedor@gmail.com', '$2y$10$WGFUj7LRLX0ZFaguDA83puJdUnRcEEVUz7e0McC2STWcjCb1Pv5n2', 'vendedor', '2025-06-21 21:43:11');
 
 --
 -- Índices para tabelas despejadas
@@ -201,13 +211,13 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
@@ -233,12 +243,6 @@ ALTER TABLE `itens_pedido`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
-
---
--- Restrições para tabelas `produtos`
---
-ALTER TABLE `produtos`
-  ADD CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`id_vendedor`) REFERENCES `usuarios` (`id_usuario`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
