@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Impede que o clique se propague para outros elementos (como a janela)
         event.stopPropagation();
         // Adiciona ou remove a classe 'show' do menu
-        dropdownMenu.classList.toggle('show');
+        dropdownMenu.classList.add('show');
     });
 
     // Ação ao clicar em qualquer lugar da janela
