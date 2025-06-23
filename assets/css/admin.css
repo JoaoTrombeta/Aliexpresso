@@ -214,3 +214,18 @@ td.actions {
 .btn-delete {
     background-color: var(--admin-accent-delete);
 }
+
+.image-preview-container { 
+    margin-top: 15px; 
+}
+#imagePreview { 
+    max-width: 150px; 
+    max-height: 150px; 
+    border: 1px solid #ddd; 
+    padding: 5px; 
+    border-radius: 4px; 
+    display: block;
+}
+#imagePreview.hidden { 
+    display: none; 
+}
