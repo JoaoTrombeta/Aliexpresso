@@ -1,0 +1,12 @@
+/* No seu arquivo CSS principal (home.css ou carrinho.css) */
+footer {
+    background-color: var(--cor-primaria); /* Certifique-se de que a variável correta está ativa para esta página */
+    color: white;
+    text-align: center; /* Centraliza o texto dentro do rodapé */
+    padding: 1rem 0;    /* Espaçamento vertical. O padding horizontal não é estritamente necessário
+                           se o texto já está centralizado e o footer é full-width.
+                           Se quiser padding nas laterais, pode usar 'padding: 1rem 2rem;' */
+    margin-top: 2rem;   /* Espaço acima do rodapé */
+    width: 100%;  /* Geralmente não é necessário, pois <footer> é block-level,
+                           mas não faz mal garantir se estiver fora de wrappers restritivos. */
+}

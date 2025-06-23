@@ -1,0 +1,231 @@
+/* --- VARIÁVEIS DE COR --- */
+/* Definindo a paleta de cores para manter a consistência. */
+:root {
+    --admin-bg-main: #f4f1ea;         /* Fundo principal da página (um creme bem claro) */
+    --admin-bg-container: #ffffff;   /* Fundo dos painéis e tabelas (branco) */
+    --admin-primary-dark: #5D4037;   /* Marrom escuro para títulos e botões principais */
+    --admin-primary-medium: #8D6E63; /* Marrom médio para bordas e textos secundários */
+    --admin-accent-edit: #a67c52;     /* Dourado/caramelo para botões de edição */
+    --admin-accent-delete: #c62828;   /* Vermelho escuro para botões de deletar */
+    --admin-text-light: #ffffff;     /* Texto claro para usar sobre fundos escuros */
+    --admin-text-dark: #333333;      /* Texto escuro padrão */
+    --admin-border-color: #e0e0e0;    /* Cor de borda suave */
+}
+
+/* --- ESTILOS GERAIS DO CORPO --- */
+/* Garante que o fundo da página admin seja diferente do site principal, se desejado. */
+body {
+    background-color: var(--admin-bg-main);
+    color: var(--admin-text-dark);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Garante que o body ocupe no mínimo toda a altura da tela */
+    margin: 0;
+}
+
+main {
+    flex-grow: 1; /* Faz o <main> crescer e ocupar o espaço disponível, empurrando o footer para baixo */
+}
+
+/* --- CONTAINER PRINCIPAL DO PAINEL --- */
+.admin-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: transparent; /* Deixa o fundo do body visível */
+}
+
+.admin-container h1 {
+    color: var(--admin-primary-dark);
+    border-bottom: 2px solid var(--admin-border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* --- NAVEGAÇÃO DO PAINEL --- */
+.admin-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-nav-link {
+    background-color: var(--admin-primary-dark);
+    color: var(--admin-text-light);
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.admin-nav-link:hover {
+    background-color: var(--admin-accent-edit);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--admin-primary-medium);
+    text-decoration: none !important;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* --- CONTAINER DE FORMULÁRIO E TABELA --- */
+.form-container,
+.table-container {
+    background-color: var(--admin-bg-container);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.form-container h2,
+.table-container h2 {
+    color: var(--admin-primary-dark);
+    margin-top: 0;
+}
+
+/* --- ESTILOS DE FORMULÁRIO --- */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--admin-border-color);
+    border-radius: 6px;
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--admin-accent-edit);
+    box-shadow: 0 0 0 2px rgba(166, 124, 82, 0.2);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--admin-primary-medium);
+}
+
+/* --- ESTILOS DE BOTÕES --- */
+button.btn-primary,
+a.btn-secondary {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+button.btn-primary {
+    background-color: var(--admin-primary-dark);
+    color: var(--admin-text-light);
+}
+
+a.btn-secondary {
+    background-color: #f0f0f0;
+    color: var(--admin-text-dark);
+    margin-left: 0.5rem;
+}
+
+button:hover,
+a.btn-secondary:hover {
+    opacity: 0.9;
+}
+
+
+/* --- ESTILOS DE TABELA --- */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Remove espaço entre células */
+    margin-top: 1rem;
+}
+
+thead th {
+    background-color: #fafafa;
+    border-bottom: 2px solid var(--admin-border-color);
+    padding: 0.8rem;
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+}
+
+tbody td {
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--admin-border-color);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+td.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* --- BOTÕES DE AÇÃO NA TABELA --- */
+.btn-edit,
+.btn-delete {
+    padding: 0.4rem 0.8rem;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.btn-edit {
+    background-color: var(--admin-accent-edit);
+}
+
+.btn-delete {
+    background-color: var(--admin-accent-delete);
+}
+
+.image-preview-container { 
+    margin-top: 15px; 
+}
+#imagePreview { 
+    max-width: 150px; 
+    max-height: 150px; 
+    border: 1px solid #ddd; 
+    padding: 5px; 
+    border-radius: 4px; 
+    display: block;
+}
+#imagePreview.hidden { 
+    display: none; 
+}
