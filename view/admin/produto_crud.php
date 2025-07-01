@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="./assets/js/header.js"></script>
+    <script src="assets/js/carrinho.js"></script>
     <style> 
         body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
         main.admin-container { flex-grow: 1; }
@@ -106,7 +108,7 @@
                     </tr>
                 </thead>
                 <!-- ... corpo da tabela ... -->
-                <tbody>
+                <tbody class="table-container">
                     <?php foreach ($products as $product): ?>
                     <tr>
                         <td><?= $product['id_produto'] ?></td>
@@ -123,8 +125,8 @@
                         <td><?= htmlspecialchars($product['categoria']) ?></td>
                         <td><?= htmlspecialchars($product['status']) ?></td>
                         <td class="actions">
-                            <a href="index.php?page=admin&action=produtos&edit_id=<?= $product['id_produto'] ?>" class="btn-edit">Editar</a>
-                            <a href="index.php?page=admin&action=deleteProduto&id=<?= $product['id_produto'] ?>" class="btn-delete" onclick="return confirm('Tem certeza?');">Deletar</a>
+                            <a href="index.php?page=admin&action=products&edit_id=<?= $product['id_produto'] ?>" class="btn-edit">Editar</a>
+                            <a href="index.php?page=admin&action=deleteProduct&id=<?= $product['id_produto'] ?>" class="btn-delete" onclick="return confirm('Tem certeza?');">Deletar</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

@@ -7,6 +7,8 @@
     {
         public static function renderHeader() {
             $logado = Auth::isLoggedIn();
+
+            $cartItemCount = count($_SESSION['carrinho'] ?? []);
         ?>
             <header>
                 <a href="index.php?page=home" class="site-logo">
@@ -45,9 +47,6 @@
         <?php
         }
 
-        /**
-         * Renderiza o rodapé padrão do site.
-         */
         public static function renderFooter() {
         ?>
             <footer>

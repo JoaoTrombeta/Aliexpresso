@@ -194,8 +194,14 @@ tbody tr:last-child td {
 
 td.actions {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
 }
+
+.table-container th, .table-container td {
+            text-align: left;
+            vertical-align: middle;
+        }
 
 /* --- BOTÕES DE AÇÃO NA TABELA --- */
 .btn-edit,

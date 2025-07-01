@@ -1,13 +1,32 @@
 <?php
     namespace Aliexpresso\Model;
 
-    require_once __DIR__ . './Database.php';
+    require_once __DIR__ . '/Database.php';
 
     class ProdutoModel {
         private $pdo;
 
         public function __construct() {
             $this->pdo = \Database::getInstance()->getConnection();
+        }
+
+        /**
+         * [NOVO] Busca vários produtos a partir de um array de IDs.
+         * @param array $ids Array com os IDs dos produtos a serem buscados.
+         * @return array Lista de produtos encontrados.
+         */
+        public function findByIds(array $ids): array {
+            if (empty($ids)) {
+                return [];
+            }
+            // Cria uma string de placeholders (?,?,?) para a consulta SQL
+            $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            $sql = "SELECT * FROM produtos WHERE id_produto IN ($placeholders)";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($ids);
+            
+            return $stmt->fetchAll();
         }
 
         /**

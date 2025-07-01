@@ -1,7 +1,7 @@
 <?php
     namespace Aliexpresso\Model\Produtos;
 
-    class Energeticos implements ProdutoCafeina 
+    class Doces implements ProdutoCafeina 
     {
         private $nome, $descricao, $preco, $imagem;
         

@@ -16,8 +16,8 @@
             return [
                 'graos' => 'Café em Grãos',
                 'capsula' => 'Cápsula de Café',
-                // Adicione outros tipos aqui
-                // 'energetico' => 'Bebida Energética'
+                'energetico' => 'Bebida Energética',
+                'doces' => 'Doces'
             ];
         }
 
@@ -26,8 +26,14 @@
                 case 'graos':
                     return new CafeEmGraos($nome, $descricao, $preco, $imagem);
                 
-                // case 'capsula':
-                //    return new CapsulaCafe($nome, $descricao, $preco, $imagem);
+                case 'capsula':
+                    return new CapsulaCafe($nome, $descricao, $preco, $imagem);
+                
+                case 'energetico':
+                    return new Energeticos($nome, $descricao, $preco, $imagem);
+                
+                case 'doces':
+                    return new Doces($nome, $descricao, $preco, $imagem);
 
                 default:
                     throw new InvalidArgumentException("Tipo de produto '{$tipo}' inválido.");

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="assets/css/header.css">
     <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="./assets/js/header.js"></script>
+    <script src="assets/js/carrinho.js"></script>
 </head>
 <body>
     <?php \Aliexpresso\Controller\PageController::renderHeader(); ?>
@@ -25,6 +27,5 @@
         </div>
     </main>
     <?php \Aliexpresso\Controller\PageController::renderFooter(); ?>
-    <script src="./assets/js/header.js"></script>
 </body>
 </html>

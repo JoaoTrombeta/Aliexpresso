@@ -1,10 +1,3 @@
-:root {
-    --cor-primaria: #5D4037;
-    --cor-secundaria: #c8b6a6;
-    --cor-fundo: #f5f3f0;
-    --cor-texto: #3e2c20;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -15,12 +8,13 @@
 body {
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
+    display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 main {
     padding: 2rem;
-    flex-grow: 1;
 }
 
 h2 {
@@ -85,6 +79,13 @@ main.carrinho-container {
     padding: 2rem;
     max-width: 1200px; /* Centraliza o conteúdo principal */
     margin: 0 auto;
+    flex-grow: 1;
+}
+
+main.carrinho-container h1 {
+    color: var(--cor-primaria);
+    margin-bottom: 1.5rem;
+    text-align: center; /* Ou text-align: left; se preferir */
 }
 
 main.carrinho-container h2 {
@@ -146,21 +147,37 @@ main.carrinho-container h2 {
 }
 
 .btn-remover-item {
-    background: none;
+   /* background: none;
     border: none;
-    color: var(--cor-destaque);
+    color: white;
     cursor: pointer;
     font-size: 0.9rem;
     padding: 0.25rem 0;
     transition: color 0.3s;
+    text-decoration: none; */
+
+    /* Estilos para que o link pareça um botão */
+    background-color: var(--cor-destaque);
+    color: white;
+    border: 1px solid #ddd;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .btn-remover-item:hover {
     color: red;
+    background-color: var(--cor-primaria);
 }
 
 .btn-remover-item i {
-    margin-right: 0.3rem;
+    margin-right: 0.4rem;
 }
 
 .preco-unitario-carrinho,
@@ -178,26 +195,14 @@ main.carrinho-container h2 {
     margin-bottom: 0.2rem;
 }
 
-.quantidade-carrinho .controle-quantidade {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Alinha à direita dentro da célula */
-}
-
-.quantidade-carrinho input[type="number"] {
+.quantidade-valor {
     width: 40px;
     text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 0.3rem;
-    margin: 0 0.3rem;
-    -moz-appearance: textfield; /* Remove setas padrão no Firefox */
-}
-
-.quantidade-carrinho input[type="number"]::-webkit-outer-spin-button,
-.quantidade-carrinho input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none; /* Remove setas padrão no Chrome/Safari */
-    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--cor-texto);
+    /* [CORREÇÃO] Adiciona margem horizontal para criar espaço */
+    margin: 0 0.1rem;
 }
 
 .btn-quantidade {
@@ -302,14 +307,14 @@ main.carrinho-container h2 {
 
 .btn-continuar-comprando:hover {
     background-color: var(--cor-secundaria);
-    color: var(--cor-texto);
+    color: var(--cor-destaque);
 }
 
 /* Estilo para mensagem de carrinho vazio */
 .carrinho-vazio {
     text-align: center;
     padding: 3rem 1rem;
-    border: 2px dashed var(--cor-secundaria);
+    /*border: 2px dashed var(--cor-secundaria);*/
     border-radius: 12px;
     background-color: #fff;
 }
@@ -325,10 +330,11 @@ main.carrinho-container h2 {
 /* Estilos para a caixa de mensagem (o card) */
 .carrinho-vazio.card {
     /* Seus estilos existentes como:
-    border: 2px dashed var(--cor-secundaria);
+    
     border-radius: 12px;
     background-color: #fff;
     */
+    border: 2px dashed var(--cor-secundaria);
     padding: 3rem 1rem; /* Padding interno da caixa */
     text-align: center; /* Centraliza o texto e o botão DENTRO da caixa */
     
@@ -342,12 +348,16 @@ main.carrinho-container h2 {
 
 .carrinho-vazio.card .btn {
     background-color: var(--cor-destaque);
-    color: white;
     padding: 0.7rem 1.5rem;
     border-radius: 8px;
     text-decoration: none;
     transition: background-color 0.3s;
     border: none; /* Garante que não haja borda padrão */
+}
+
+.carrinho-vazio.card a {
+    color: white; 
+    text-decoration: none;
 }
 
 .carrinho-vazio.card .btn:hover {

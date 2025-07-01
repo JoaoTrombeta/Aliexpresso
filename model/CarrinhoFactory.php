@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Database.php'; // Garante que o arquivo de conexão seja incluído
+require_once '/Database.php'; // Garante que o arquivo de conexão seja incluído
 
 class CarrinhoModel {
     private $db;
