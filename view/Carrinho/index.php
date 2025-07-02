@@ -58,20 +58,55 @@
                 </div>
 
                 <aside class="resumo-pedido card">
-                    <h2>Resumo do Pedido</h2>
+                    <h3>Resumo do Pedido</h3>
+
+                    <div class="coupon-section">
+                        <?php if (isset($_SESSION['applied_coupon'])): ?>
+                            <div class="applied-coupon">
+                                <span>Cupom: <strong><?= htmlspecialchars($_SESSION['applied_coupon']['codigo']) ?></strong></span>
+                                <a href="index.php?page=carrinho&action=removeCoupon" class="remove-coupon-btn">Remover</a>
+                            </div>
+                        <?php else: ?>
+                            <a id="coupon-toggle-btn" class="coupon-toggle">Adicionar cupom de desconto</a>
+                            <div id="coupon-form-container" class="coupon-form-container">
+                                <form action="index.php?page=carrinho&action=applyCoupon" method="post" class="coupon-form">
+                                    <input type="text" name="coupon_code" placeholder="Digite seu cupom" oninput="this.value = this.value.toUpperCase()">
+                                    <button type="submit">Aplicar</button>
+                                </form>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- [ATUALIZADO] Mensagem de feedback do cupom com botão de fechar -->
+                    <?php if (isset($_SESSION['coupon_message'])): ?>
+                        <div class="coupon-message <?= $_SESSION['coupon_message']['type'] ?>">
+                            <span><?= $_SESSION['coupon_message']['text'] ?></span>
+                            <button type="button" class="close-coupon-message" onclick="this.parentElement.style.display='none'">&times;</button>
+                        </div>
+                        <?php unset($_SESSION['coupon_message']); ?>
+                    <?php endif; ?>
+
                     <div class="linha-resumo">
                         <span>Subtotal (<?= count($cartItems) ?> itens):</span>
                         <span>R$ <?= number_format($subtotal, 2, ',', '.') ?></span>
                     </div>
+
+                    <?php if ($discount > 0): ?>
+                    <div class="linha-resumo desconto">
+                        <span>Desconto (Cupom):</span>
+                        <span>- R$ <?= number_format($discount, 2, ',', '.') ?></span>
+                    </div>
+                    <?php endif; ?>
+
                     <div class="linha-resumo">
                         <span>Frete:</span>
                         <span>Grátis</span>
                     </div>
-                    <div class="linha-resumo total-pedido">
-                        <span>Total:</span>
-                        <span>R$ <?= number_format($subtotal, 2, ',', '.') ?></span>
+                    <div class="linha-resumo total">
+                        <strong>Total:</strong>
+                        <strong>R$ <?= number_format($total, 2, ',', '.') ?></strong>
                     </div>
-                    <button class="btn btn-finalizar">Finalizar Compra</button>
+                    <button class="btn-finalizar">Finalizar Compra</button>
                     <a href="index.php?page=produto" class="btn-continuar-comprando">Continuar Comprando</a>
                 </aside>
             </div>

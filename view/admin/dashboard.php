@@ -21,6 +21,7 @@
         <nav class="admin-nav">
             <a href="index.php?page=admin&action=users" class="admin-nav-link">Gerenciar Usuários</a>
             <a href="index.php?page=admin&action=products" class="admin-nav-link">Gerenciar Produtos</a>
+            <a href="index.php?page=admin&action=cupons" class="admin-nav-link">Gerenciar Cupons</a>
         </nav>
         <div class="admin-content">
             <p>Selecione uma opção acima para começar.</p>

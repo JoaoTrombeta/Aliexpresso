@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/06/2025 às 06:29
+-- Tempo de geração: 02/07/2025 às 05:51
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,12 +30,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `cupons` (
   `id_cupom` int(11) NOT NULL,
   `codigo` varchar(50) NOT NULL,
-  `descricao` varchar(100) DEFAULT NULL,
+  `descricao` varchar(255) DEFAULT NULL,
   `valor_desconto` decimal(10,2) NOT NULL,
-  `tipo` enum('fixo','percentual') DEFAULT 'fixo',
+  `tipo` enum('fixo','percentual') NOT NULL DEFAULT 'fixo',
   `data_validade` date DEFAULT NULL,
-  `status` enum('ativo','expirado') DEFAULT 'ativo'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` enum('ativo','expirado') NOT NULL DEFAULT 'ativo'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `cupons`
+--
+
+INSERT INTO `cupons` (`id_cupom`, `codigo`, `descricao`, `valor_desconto`, `tipo`, `data_validade`, `status`) VALUES
+(1, '10OFF', 'Desconta 10 reais do valor total da compra', 10.00, 'fixo', '2025-07-30', 'ativo'),
+(2, '10PERCENT', 'Desconta 10% do valor total na primeira compra', 10.00, 'percentual', NULL, 'ativo');
 
 -- --------------------------------------------------------
 
@@ -93,7 +101,7 @@ CREATE TABLE `produtos` (
   `preco` decimal(10,2) NOT NULL,
   `quantidade_estoque` int(11) DEFAULT 0,
   `categoria` varchar(50) DEFAULT NULL,
-  `id_vendedor` int(11) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
   `imagem` varchar(255) DEFAULT NULL,
   `status` enum('a venda','descontinuado') DEFAULT 'a venda'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -102,8 +110,11 @@ CREATE TABLE `produtos` (
 -- Despejando dados para a tabela `produtos`
 --
 
-INSERT INTO `produtos` (`id_produto`, `nome`, `descricao`, `preco`, `quantidade_estoque`, `categoria`, `id_vendedor`, `imagem`, `status`) VALUES
-(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', 20.00, 100, 'graos', NULL, 'assets/images/produtos/6858d2df39579-Chocolate C amargo.png', 'a venda');
+INSERT INTO `produtos` (`id_produto`, `nome`, `descricao`, `preco`, `quantidade_estoque`, `categoria`, `id_usuario`, `imagem`, `status`) VALUES
+(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', 20.00, 200, 'doces', 2, 'assets/images/produtos/68634f970f302-Chocolate C amargo.png', 'a venda'),
+(2, 'Monster Tradicional', 'Bebida Energetica Monster Energy Green Com 473Ml', 10.00, 150, 'energetico', 2, 'assets/images/produtos/68634fcf4ffeb-monster.jpg', 'a venda'),
+(3, 'Café Au Lait Dolce Gusto', 'Nescafé Dolce Gusto com 10 cápsulas', 70.00, 100, 'capsula', 2, 'assets/images/produtos/686350448fd93-capsula.jpg', 'a venda'),
+(4, 'Café Espresso Gourmet 3 Corações', 'Café Torrado em Grãos Espresso Gourmet 3 Corações Pacote 500g', 65.87, 123, 'graos', 2, 'assets/images/produtos/6863509076b72-3coracoes.jpg', 'a venda');
 
 -- --------------------------------------------------------
 
@@ -170,7 +181,7 @@ ALTER TABLE `pedidos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id_produto`),
-  ADD KEY `id_vendedor` (`id_vendedor`);
+  ADD KEY `id_vendedor` (`id_usuario`);
 
 --
 -- Índices de tabela `usuarios`
@@ -187,7 +198,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `cupons`
 --
 ALTER TABLE `cupons`
-  MODIFY `id_cupom` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cupom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `cupons_usados`
@@ -211,7 +222,7 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_produto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`

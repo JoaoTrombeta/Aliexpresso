@@ -2,6 +2,7 @@
     namespace Aliexpresso\Controller;
 
     use Aliexpresso\Model\ProdutoModel;
+    use Aliexpresso\Model\CupomModel;
 
     class CarrinhoController {
 
@@ -9,6 +10,7 @@
 
         public function __construct() {
             $this->produtoModel = new ProdutoModel();
+            $this->cupomModel = new CupomModel();
             if (!isset($_SESSION['carrinho'])) {
                 $_SESSION['carrinho'] = [];
             }
@@ -46,9 +48,10 @@
          * Exibe a página do carrinho.
          */
         public function index() {
-            $cartSession = $_SESSION['carrinho'];
+            $cartSession = $_SESSION['carrinho'] ?? [];
             $cartItems = [];
             $subtotal = 0;
+            $discount = 0;
 
             if (!empty($cartSession)) {
                 $productIds = array_keys($cartSession);
@@ -69,7 +72,52 @@
                 }
             }
             
+            if (isset($_SESSION['applied_coupon'])) {
+                $coupon = $_SESSION['applied_coupon'];
+                if ($coupon['tipo'] === 'fixo') {
+                    $discount = $coupon['valor_desconto'];
+                } elseif ($coupon['tipo'] === 'percentual') {
+                    $discount = ($subtotal * $coupon['valor_desconto']) / 100;
+                }
+            }
+
+            // [CORREÇÃO] Garante que o total reflete o desconto.
+            $total = $subtotal - $discount;
+
             require_once __DIR__ . '/../view/carrinho/index.php';
+        }
+
+        public function applyCoupon() {
+            // Converte o código do cupom para maiúsculas antes de procurar
+            $couponCode = strtoupper($_POST['coupon_code'] ?? '');
+
+            if (empty($couponCode)) {
+                // Se o campo estiver vazio, remove qualquer cupom existente
+                unset($_SESSION['applied_coupon']);
+                $_SESSION['coupon_message'] = ['text' => 'Cupom removido.', 'type' => 'info'];
+            } else {
+                $coupon = $this->cupomModel->findByCode($couponCode);
+        
+                if ($coupon) {
+                    // Cupom válido, guarda na sessão
+                    $_SESSION['applied_coupon'] = $coupon;
+                    $_SESSION['coupon_message'] = ['text' => 'Cupom aplicado com sucesso!', 'type' => 'success'];
+                } else {
+                    // Cupom inválido, remove qualquer um que estivesse antes
+                    unset($_SESSION['applied_coupon']);
+                    $_SESSION['coupon_message'] = ['text' => 'Cupom inválido ou expirado.', 'type' => 'error'];
+                }
+            }
+
+            header('Location: index.php?page=carrinho');
+            exit();
+        }
+
+        public function removeCoupon() {
+            unset($_SESSION['applied_coupon']);
+            $_SESSION['coupon_message'] = ['text' => 'Cupom removido com sucesso.', 'type' => 'info'];
+            header('Location: index.php?page=carrinho');
+            exit();
         }
 
         /**
@@ -93,16 +141,13 @@
          */
         public function remove() {
             $productId = (int)($_GET['id'] ?? 0);
-
             if (isset($_SESSION['carrinho'][$productId])) {
-                // Remove o item da sessão
                 unset($_SESSION['carrinho'][$productId]);
             }
-
-            // [REFORÇO] Força a gravação dos dados da sessão antes de redirecionar
-            session_write_close();
-
-            // Redireciona de volta para a página do carrinho
+            // [NOVO] Se o carrinho ficar vazio, remove também o cupom.
+            if (empty($_SESSION['carrinho'])) {
+                unset($_SESSION['applied_coupon']);
+            }
             header('Location: index.php?page=carrinho');
             exit();
         }

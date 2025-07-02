@@ -3,17 +3,20 @@
 
     use Aliexpresso\Helper\Auth;
     use Aliexpresso\Model\UsuarioModel;
-    use Aliexpresso\Model\ProdutoModel; // Importa o novo model
-    use Aliexpresso\Model\ProdutoFactory; // Importa a fábrica
+    use Aliexpresso\Model\ProdutoModel;
+    use Aliexpresso\Model\ProdutoFactory;
+    use Aliexpresso\Model\CupomModel;
 
     class AdminController 
     {
         private $userModel;
-        private $productModel; // Adiciona a propriedade para o model de produto
+        private $productModel;
+        private $cupomModel;
 
         public function __construct() {
             $this->userModel = new UsuarioModel();
-            $this->productModel = new ProdutoModel(); // Instancia o model
+            $this->productModel = new ProdutoModel();
+            $this->cupomModel = new CupomModel();
 
             if (!Auth::isAdmin()) {
                 http_response_code(403);
@@ -31,7 +34,7 @@
         /**
          * Mostra a página de CRUD de usuários.
          */
-        public function users() {
+        public function usuarios() {
             $users = $this->userModel->getAll();
             $userToEdit = null;
 
@@ -64,7 +67,7 @@
                     $this->userModel->create($data);
                 }
             }
-            header('Location: index.php?page=admin&action=users');
+            header('Location: index.php?page=admin&action=usuarios');
             exit();
         }
 
@@ -82,11 +85,11 @@
                 }
                 $this->userModel->delete($id);
             }
-            header('Location: index.php?page=admin&action=users');
+            header('Location: index.php?page=admin&action=usuarios');
             exit();
         }
 
-        public function products() {
+        public function produtos() {
             $products = $this->productModel->getAll();
             $productToEdit = null;
 
@@ -156,6 +159,58 @@
                 $this->productModel->delete($id);
             }
             header('Location: index.php?page=admin&action=produtos');
+            exit();
+        }
+
+        public function cupons() {
+            $coupons = $this->cupomModel->getAll();
+            $couponToEdit = null;
+
+            if (isset($_GET['edit_id'])) {
+                $couponToEdit = $this->cupomModel->getById((int)$_GET['edit_id']);
+            }
+            
+            require_once __DIR__ . '/../view/admin/cupom_crud.php';
+        }
+
+        /**
+         * [NOVO] Salva um cupom (novo ou editado).
+         */
+        public function saveCoupon() {
+            if ($_POST) {
+                $id = (int)($_POST['id_cupom'] ?? 0);
+                
+                $data = [
+                    'codigo' => $_POST['codigo'],
+                    'descricao' => $_POST['descricao'],
+                    'valor_desconto' => (float)$_POST['valor_desconto'],
+                    'tipo' => $_POST['tipo'],
+                    'data_validade' => $_POST['data_validade']
+                ];
+
+                if ($id > 0) {
+                    // MODO EDIÇÃO: Pega o status do formulário.
+                    $data['status'] = $_POST['status'];
+                    $this->cupomModel->update($id, $data);
+                } else {
+                    // MODO CRIAÇÃO: Define o status como 'ativo' automaticamente.
+                    $data['status'] = 'ativo';
+                    $this->cupomModel->create($data);
+                }
+            }
+            header('Location: index.php?page=admin&action=cupons');
+            exit();
+        }
+
+        /**
+         * [NOVO] Deleta um cupom.
+         */
+        public function deleteCoupon() {
+            $id = (int)($_GET['id'] ?? 0);
+            if ($id > 0) {
+                $this->cupomModel->delete($id);
+            }
+            header('Location: index.php?page=admin&action=cupons');
             exit();
         }
 

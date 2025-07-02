@@ -368,3 +368,149 @@ main.carrinho-container h2 {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
 }
+
+.coupon-form {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.coupon-form input {
+    width: 100%; /* Ocupa toda a largura */
+    border: 1px solid #ccc;
+    padding: 0.8rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-size: 1rem;
+    margin-bottom: 0.75rem; /* Adiciona espaço abaixo do input */
+}
+
+.coupon-form button {
+    width: 50%; /* Ocupa toda a largura */
+    background-color: var(--cor-destaque);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Estilos para mensagens de feedback do cupom */
+.coupon-message {
+    padding: 0.8rem;
+    margin: -1rem 0 1.5rem 0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.coupon-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.coupon-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.coupon-message.info {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+/* Estilo para a linha de desconto */
+.linha-resumo.desconto span:last-child {
+    color: #28a745; /* Verde para o desconto */
+}
+
+.applied-coupon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 0.8rem;
+    border-radius: 8px;
+}
+
+.applied-coupon span strong {
+    color: var(--cor-primaria);
+    font-family: monospace;
+    background-color: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.remove-coupon-btn {
+    color: #c0392b;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.coupon-section {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e9e4e0;
+    padding-bottom: 1.5rem;
+}
+
+/* [NOVO] Estilo para o link que mostra/esconde o formulário */
+.coupon-toggle {
+    color: var(--cor-destaque);
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+/* [NOVO] Container do formulário, escondido por padrão */
+.coupon-form-container {
+    display: none;
+    overflow: hidden;
+}
+
+.coupon-form input {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 0.8rem;
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.coupon-form button {
+    width: 100%;
+    background-color: var(--cor-destaque);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.coupon-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    margin: -1rem 0 1.5rem 0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.close-coupon-message {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: inherit;
+    opacity: 0.6;
+    cursor: pointer;
+    padding: 0 0.5rem;
+}
+.close-coupon-message:hover {
+    opacity: 1;
+}

@@ -70,3 +70,20 @@ function showCartNotification(message, type = 'success') {
         notification.addEventListener('transitionend', () => notification.remove());
     }, 3000);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('coupon-toggle-btn');
+            const formContainer = document.getElementById('coupon-form-container');
+
+            if (toggleBtn && formContainer) {
+                toggleBtn.addEventListener('click', function(e) {
+                    e.preventDefault(); // Impede que o link navegue
+                    // Mostra ou esconde o formulário
+                    if (formContainer.style.display === 'block') {
+                        formContainer.style.display = 'none';
+                    } else {
+                        formContainer.style.display = 'block';
+                    }
+                });
+            }
+        });

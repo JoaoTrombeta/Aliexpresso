@@ -16,9 +16,9 @@
         public function store() {
             $userModel = new UsuarioModel();
             if ($userModel->create($_POST)) {
-                header('Location: index.php?page=usuarios&action=login&sucesso=1');
+                header('Location: index.php?page=usuario&action=login&sucesso=1');
             } else {
-                header('Location: index.php?page=usuarios&action=register&erro=1');
+                header('Location: index.php?page=usuario&action=register&erro=1');
             }
             exit();
         }
@@ -38,7 +38,7 @@
                 exit();
             } else {
                 // Falha no login
-                header('Location: index.php?page=usuarios&action=login&erro=1');
+                header('Location: index.php?page=usuario&action=login&erro=1');
                 exit();
             }
         }

@@ -3,8 +3,10 @@
 
     use Aliexpresso\Model\Produtos\ProdutoCafeina;
     use Aliexpresso\Model\Produtos\CafeEmGraos;
-    // Adicione outras classes de produto aqui, como CapsulaCafe
-    // use Aliexpresso\Model\Produtos\CapsulaCafe;
+    use Aliexpresso\Model\Produtos\CapsulaCafe;
+    use Aliexpresso\Model\Produtos\Energeticos;
+    use Aliexpresso\Model\Produtos\Doces;
+    
     use InvalidArgumentException;
 
     class ProdutoFactory {
