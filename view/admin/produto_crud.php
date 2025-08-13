@@ -72,7 +72,7 @@
                     </div>
                 </div>
 
-                <!-- [MUDANÇA] O campo Status só aparece no modo de edição -->
+                <!-- O campo Status só aparece no modo de edição -->
                 <?php if (isset($productToEdit)): ?>
                     <div class="form-group">
                         <label for="status">Status:</label>
@@ -90,7 +90,7 @@
             </form>
         </div>
 
-        <!-- Tabela de Produtos Cadastrados (sem alterações) -->
+        <!-- Tabela de Produtos Cadastrados -->
         <div class="table-container">
             <h2>Produtos Cadastrados</h2>
             <table>
@@ -107,7 +107,7 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <!-- ... corpo da tabela ... -->
+                <!-- Corpo da Tabela -->
                 <tbody class="table-container">
                     <?php foreach ($products as $product): ?>
                     <tr>
@@ -124,8 +124,8 @@
                         <td><?= $product['quantidade_estoque'] ?></td>
                         <td><?= htmlspecialchars($product['categoria']) ?></td>
                         <td><?= htmlspecialchars($product['status']) ?></td>
-                        <td class="actions">
-                            <a href="index.php?page=admin&action=products&edit_id=<?= $product['id_produto'] ?>" class="btn-edit">Editar</a>
+                        <td class="actionsProduct">
+                            <a href="index.php?page=admin&action=produtos&edit_id=<?= $product['id_produto'] ?>" class="btn-edit">Editar</a>
                             <a href="index.php?page=admin&action=deleteProduct&id=<?= $product['id_produto'] ?>" class="btn-delete" onclick="return confirm('Tem certeza?');">Deletar</a>
                         </td>
                     </tr>

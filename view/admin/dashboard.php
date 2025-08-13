@@ -17,10 +17,13 @@
     <?php \Aliexpresso\Controller\PageController::renderHeader(); ?>
     <main class="admin-container">
         <h1>Painel Administrativo</h1>
+
+        <a href="index.php?page=home" class="back-link" style="margin-bottom: 1rem;">&larr; Voltar para a tela inicial</a>
+
         <p>Bem-vindo, <?= htmlspecialchars(\Aliexpresso\Helper\Auth::user()['nome']) ?>!</p>
         <nav class="admin-nav">
-            <a href="index.php?page=admin&action=users" class="admin-nav-link">Gerenciar Usuários</a>
-            <a href="index.php?page=admin&action=products" class="admin-nav-link">Gerenciar Produtos</a>
+            <a href="index.php?page=admin&action=usuarios" class="admin-nav-link">Gerenciar Usuários</a>
+            <a href="index.php?page=admin&action=produtos" class="admin-nav-link">Gerenciar Produtos</a>
             <a href="index.php?page=admin&action=cupons" class="admin-nav-link">Gerenciar Cupons</a>
         </nav>
         <div class="admin-content">

@@ -198,6 +198,11 @@ td.actions {
     gap: 0.5rem;
 }
 
+td.actionsProduct {
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .table-container th, .table-container td {
             text-align: left;
             vertical-align: middle;
