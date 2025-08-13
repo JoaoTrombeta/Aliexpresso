@@ -26,6 +26,10 @@
             return self::role() === 'vendedor';
         }
 
+        public static function isClient(): bool {
+            return self::role() === 'cliente';
+        }
+
         public static function canManageProducts(): bool {
             return self::isVendor() || self::isManager() || self::isAdmin();
         }

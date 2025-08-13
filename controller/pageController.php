@@ -15,10 +15,15 @@
                     <h1><img src="./assets/img/logo_aliexpresso4.png" alt="Logo Aliexpresso"></h1>
                 </a>
                 <div class="header-right">
-                    <a href="index.php?page=Carrinho" class="header-cart-icon-link" aria-label="Carrinho de Compras">
-                        <i class="fas fa-shopping-cart cart-icon"></i>
-                        <span class="cart-badge" id="cartItemCount">0</span> 
-                    </a>
+                    <?php if (\Aliexpresso\Helper\Auth::isClient()): ?>
+                        <a href="index.php?page=Carrinho" class="header-cart-icon-link" aria-label="Carrinho de Compras">
+                            <i class="fas fa-shopping-cart cart-icon"></i>
+                            <!-- [CORREÇÃO] O contador só é exibido se houver itens no carrinho -->
+                            <?php if ($cartItemCount > 0): ?>
+                                <span class="cart-badge" id="cartItemCount"><?= $cartItemCount ?></span>
+                            <?php endif; ?> 
+                        </a>
+                    <?php endif; ?>
 
                     <img src="https://placehold.co/30x30/eeeeee/777777?text=User" alt="Usuário" class="icon user-icon" id="userIconTrigger">
                     
@@ -32,8 +37,9 @@
                                 <?php if (\Aliexpresso\Helper\Auth::isAdmin()): ?>
                                     <a href="index.php?page=admin">Painel do Admin</a>
                                 <?php endif; ?>
-
-                                <a href="index.php?page=pedidos&action=listar">Meus Pedidos</a>
+                                <?php if (\Aliexpresso\Helper\Auth::isClient()): ?>
+                                    <a href="index.php?page=pedidos&action=listar">Meus Pedidos</a>
+                                <?php endif; ?>
                                 <a href="index.php?page=usuario&action=config">Configurações</a>
                                 <a href="index.php?page=usuario&action=logout">Sair</a>
                             <?php else: ?>

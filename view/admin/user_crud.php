@@ -48,7 +48,7 @@
                 </div>
                 <button type="submit" class="btn-primary"><?= isset($userToEdit) ? 'Atualizar' : 'Criar' ?></button>
                 <?php if (isset($userToEdit)): ?>
-                    <a href="index.php?page=admin&action=users" class="btn-secondary">Cancelar Edição</a>
+                    <a href="index.php?page=admin&action=usuarios" class="btn-secondary">Cancelar Edição</a>
                 <?php endif; ?>
             </form>
         </div>
@@ -74,7 +74,7 @@
                         <td><?= htmlspecialchars($user['email']) ?></td>
                         <td><?= htmlspecialchars($user['tipo']) ?></td>
                         <td class="actions">
-                            <a href="index.php?page=admin&action=users&edit_id=<?= $user['id_usuario'] ?>" class="btn-edit">Editar</a>
+                            <a href="index.php?page=admin&action=usuarios&edit_id=<?= $user['id_usuario'] ?>" class="btn-edit">Editar</a>
                             <a href="index.php?page=admin&action=deleteUser&id=<?= $user['id_usuario'] ?>" class="btn-delete" onclick="return confirm('Tem certeza que deseja deletar este usuário?');">Deletar</a>
                         </td>
                     </tr>
