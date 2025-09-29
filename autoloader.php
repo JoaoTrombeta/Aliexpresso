@@ -33,9 +33,9 @@
         // Constrói o caminho final, convertendo o diretório para minúsculas
         $file = $base_dir . strtolower($directory_path) . '/' . $class_file_name . '.php';
 
-        // Se o arquivo existir, carrega-o
+        // Se o arquivo existir, carrega-o APENAS UMA VEZ
         if (file_exists($file)) {
-            require $file;
+            require_once $file; // <--- CORRIGIDO!
         }
     });
 ?>

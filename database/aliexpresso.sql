@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13-Ago-2025 às 22:28
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 8.2.0
+-- Tempo de geração: 30/09/2025 às 00:07
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cupons`
+-- Estrutura para tabela `cupons`
 --
 
 CREATE TABLE `cupons` (
@@ -38,17 +38,17 @@ CREATE TABLE `cupons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `cupons`
+-- Despejando dados para a tabela `cupons`
 --
 
 INSERT INTO `cupons` (`id_cupom`, `codigo`, `descricao`, `valor_desconto`, `tipo`, `data_validade`, `status`) VALUES
-(1, '10OFF', 'Desconta 10 reais do valor total da compra', '10.00', 'fixo', '2025-07-30', 'ativo'),
-(2, '10PERCENT', 'Desconta 10% do valor total na primeira compra', '10.00', 'percentual', NULL, 'ativo');
+(1, '10OFF', 'Desconta 10 reais do valor total da compra', 10.00, 'fixo', '2025-07-30', 'ativo'),
+(2, '10PERCENT', 'Desconta 10% do valor total na primeira compra', 10.00, 'percentual', NULL, 'ativo');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cupons_usados`
+-- Estrutura para tabela `cupons_usados`
 --
 
 CREATE TABLE `cupons_usados` (
@@ -62,7 +62,7 @@ CREATE TABLE `cupons_usados` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `itens_pedido`
+-- Estrutura para tabela `itens_pedido`
 --
 
 CREATE TABLE `itens_pedido` (
@@ -73,25 +73,41 @@ CREATE TABLE `itens_pedido` (
   `preco_unitario` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Despejando dados para a tabela `itens_pedido`
+--
+
+INSERT INTO `itens_pedido` (`id_item`, `id_pedido`, `id_produto`, `quantidade`, `preco_unitario`) VALUES
+(79, 1, 3, 1, 70.00),
+(80, 1, 1, 1, 20.00),
+(81, 1, 2, 6, 10.00);
+
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pedidos`
+-- Estrutura para tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
   `id_pedido` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL,
   `data_pedido` datetime DEFAULT current_timestamp(),
-  `status` enum('no_carrinho','aguardando_pagamento','pago','enviado','entregue','cancelado') DEFAULT 'no_carrinho',
+  `status` varchar(50) NOT NULL DEFAULT 'carrinho',
   `forma_pagamento` varchar(50) DEFAULT NULL,
   `valor_total` decimal(10,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+--
+-- Despejando dados para a tabela `pedidos`
+--
+
+INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `data_pedido`, `status`, `forma_pagamento`, `valor_total`) VALUES
+(1, 1, '2025-09-29 18:40:00', 'carrinho', NULL, 150.00);
+
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `produtos`
+-- Estrutura para tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -107,19 +123,19 @@ CREATE TABLE `produtos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `produtos`
+-- Despejando dados para a tabela `produtos`
 --
 
 INSERT INTO `produtos` (`id_produto`, `nome`, `descricao`, `preco`, `quantidade_estoque`, `categoria`, `id_usuario`, `imagem`, `status`) VALUES
-(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', '20.00', 200, 'doces', 2, 'assets/images/produtos/68634f970f302-Chocolate C amargo.png', 'a venda'),
-(2, 'Monster Tradicional', 'Bebida Energetica Monster Energy Green Com 473Ml', '10.00', 150, 'energetico', 2, 'assets/images/produtos/68634fcf4ffeb-monster.jpg', 'a venda'),
-(3, 'Café Au Lait Dolce Gusto', 'Nescafé Dolce Gusto com 10 cápsulas', '70.00', 100, 'capsula', 2, 'assets/images/produtos/686350448fd93-capsula.jpg', 'a venda'),
-(4, 'Café Espresso Gourmet 3 Corações', 'Café Torrado em Grãos Espresso Gourmet 3 Corações Pacote 500g', '65.87', 123, 'graos', 2, 'assets/images/produtos/6863509076b72-3coracoes.jpg', 'a venda');
+(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', 20.00, 200, 'doces', 2, 'assets/images/produtos/68634f970f302-Chocolate C amargo.png', 'a venda'),
+(2, 'Monster Tradicional', 'Bebida Energetica Monster Energy Green Com 473Ml', 10.00, 150, 'energetico', 2, 'assets/images/produtos/68634fcf4ffeb-monster.jpg', 'a venda'),
+(3, 'Café Au Lait Dolce Gusto', 'Nescafé Dolce Gusto com 10 cápsulas', 70.00, 100, 'capsula', 2, 'assets/images/produtos/686350448fd93-capsula.jpg', 'a venda'),
+(4, 'Café Espresso Gourmet 3 Corações', 'Café Torrado em Grãos Espresso Gourmet 3 Corações Pacote 500g', 65.87, 123, 'graos', 2, 'assets/images/produtos/6863509076b72-3coracoes.jpg', 'a venda');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuarios`
+-- Estrutura para tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -132,7 +148,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `usuarios`
+-- Despejando dados para a tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `data_cadastro`) VALUES
@@ -146,14 +162,14 @@ INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `data_ca
 --
 
 --
--- Índices para tabela `cupons`
+-- Índices de tabela `cupons`
 --
 ALTER TABLE `cupons`
   ADD PRIMARY KEY (`id_cupom`),
   ADD UNIQUE KEY `codigo` (`codigo`);
 
 --
--- Índices para tabela `cupons_usados`
+-- Índices de tabela `cupons_usados`
 --
 ALTER TABLE `cupons_usados`
   ADD PRIMARY KEY (`id_cupom_usado`),
@@ -162,7 +178,7 @@ ALTER TABLE `cupons_usados`
   ADD KEY `id_pedido` (`id_pedido`);
 
 --
--- Índices para tabela `itens_pedido`
+-- Índices de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD PRIMARY KEY (`id_item`),
@@ -170,28 +186,28 @@ ALTER TABLE `itens_pedido`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `pedidos`
+-- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id_pedido`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `produtos`
+-- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id_produto`),
   ADD KEY `id_vendedor` (`id_usuario`);
 
 --
--- Índices para tabela `usuarios`
+-- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
@@ -210,13 +226,13 @@ ALTER TABLE `cupons_usados`
 -- AUTO_INCREMENT de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -231,11 +247,11 @@ ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `cupons_usados`
+-- Restrições para tabelas `cupons_usados`
 --
 ALTER TABLE `cupons_usados`
   ADD CONSTRAINT `cupons_usados_ibfk_1` FOREIGN KEY (`id_cupom`) REFERENCES `cupons` (`id_cupom`),
@@ -243,14 +259,14 @@ ALTER TABLE `cupons_usados`
   ADD CONSTRAINT `cupons_usados_ibfk_3` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`);
 
 --
--- Limitadores para a tabela `itens_pedido`
+-- Restrições para tabelas `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`);
 
 --
--- Limitadores para a tabela `pedidos`
+-- Restrições para tabelas `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);

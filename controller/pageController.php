@@ -8,7 +8,15 @@
         public static function renderHeader() {
             $logado = Auth::isLoggedIn();
 
-            $cartItemCount = count($_SESSION['carrinho'] ?? []);
+            $totalItems = 0; // Inicia a contagem como 0
+            
+            // Verifica se o carrinho e a chave 'produtos' existem na sessão
+            if (isset($_SESSION['carrinho']) && !empty($_SESSION['carrinho']['produtos'])) {
+                // Pega apenas a coluna 'quantidade' de cada produto no carrinho
+                $quantities = array_column($_SESSION['carrinho']['produtos'], 'quantidade');
+                // Soma todos os valores da coluna 'quantidade' para ter o total real de itens
+                $totalItems = array_sum($quantities);
+            }
         ?>
             <header>
                 <a href="index.php?page=home" class="site-logo">
@@ -16,11 +24,11 @@
                 </a>
                 <div class="header-right">
                     <?php if (\Aliexpresso\Helper\Auth::isClient()): ?>
-                        <a href="index.php?page=Carrinho" class="header-cart-icon-link" aria-label="Carrinho de Compras">
+                        <a href="index.php?page=Carrinho" class="header-cart-icon-link cart-icon-container" aria-label="Carrinho de Compras">
                             <i class="fas fa-shopping-cart cart-icon"></i>
-                            <!-- [CORREÇÃO] O contador só é exibido se houver itens no carrinho -->
-                            <?php if ($cartItemCount > 0): ?>
-                                <span class="cart-badge" id="cartItemCount"><?= $cartItemCount ?></span>
+                            
+                            <?php if ($totalItems > 0): ?>
+                                <span class="cart-badge" id="cart-count"><?= $totalItems ?></span>
                             <?php endif; ?> 
                         </a>
                     <?php endif; ?>
