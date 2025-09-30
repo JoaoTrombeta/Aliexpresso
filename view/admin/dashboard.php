@@ -22,6 +22,7 @@
 
         <p>Bem-vindo, <?= htmlspecialchars(\Aliexpresso\Helper\Auth::user()['nome']) ?>!</p>
         <nav class="admin-nav">
+            <a href="index.php?page=admin&action=vendas" class="admin-nav-link">Dashboard de Vendas</a>
             <a href="index.php?page=admin&action=usuarios" class="admin-nav-link">Gerenciar Usuários</a>
             <a href="index.php?page=admin&action=produtos" class="admin-nav-link">Gerenciar Produtos</a>
             <a href="index.php?page=admin&action=cupons" class="admin-nav-link">Gerenciar Cupons</a>

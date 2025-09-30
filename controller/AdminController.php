@@ -6,17 +6,20 @@
     use Aliexpresso\Model\ProdutoModel;
     use Aliexpresso\Model\ProdutoFactory;
     use Aliexpresso\Model\CupomModel;
+    use Aliexpresso\Model\PedidoModel;
 
     class AdminController 
     {
         private $userModel;
         private $productModel;
         private $cupomModel;
+        private $pedidoModel;
 
         public function __construct() {
             $this->userModel = new UsuarioModel();
             $this->productModel = new ProdutoModel();
             $this->cupomModel = new CupomModel();
+            $this->pedidoModel = new PedidoModel();
 
             if (!Auth::isAdmin()) {
                 http_response_code(403);
@@ -212,6 +215,19 @@
             }
             header('Location: index.php?page=admin&action=cupons');
             exit();
+        }
+
+        /**
+         * [NOVO] Mostra a página do dashboard de vendas.
+         */
+        public function vendas() {
+            // Busca todos os dados necessários do modelo
+            $stats = $this->pedidoModel->getSalesStatistics();
+            $bestSellers = $this->pedidoModel->getBestSellingProducts();
+            $recentOrders = $this->pedidoModel->getRecentOrders();
+
+            // Passa os dados para a view
+            require_once __DIR__ . '/../view/admin/dashboard_vendas.php';
         }
 
     }
