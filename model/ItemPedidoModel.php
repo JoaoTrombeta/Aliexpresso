@@ -33,4 +33,16 @@ class ItemPedidoModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function findItemsByOrderIdWithDetails($pedidoId) {
+        $query = "SELECT ip.*, p.nome, p.imagem 
+                  FROM itens_pedido ip 
+                  JOIN produtos p ON ip.id_produto = p.id_produto 
+                  WHERE ip.id_pedido = :pedidoId";
+                  
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':pedidoId', $pedidoId);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
 }

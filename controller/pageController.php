@@ -46,7 +46,7 @@
                                     <a href="index.php?page=admin">Painel do Admin</a>
                                 <?php endif; ?>
                                 <?php if (\Aliexpresso\Helper\Auth::isClient()): ?>
-                                    <a href="index.php?page=pedidos&action=listar">Meus Pedidos</a>
+                                    <a href="index.php?page=pedido&action=historico">Meus Pedidos</a>
                                 <?php endif; ?>
                                 <a href="index.php?page=usuario&action=config">Configurações</a>
                                 <a href="index.php?page=usuario&action=logout">Sair</a>

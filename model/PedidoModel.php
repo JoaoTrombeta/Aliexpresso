@@ -3,12 +3,13 @@ namespace Aliexpresso\Model;
 
 use PDO;
 
+require_once __DIR__ . '/Database.php';
+
 class PedidoModel {
     
     private $db; // Esta propriedade irá guardar a CONEXÃO PDO
 
     public function __construct() {
-        // CORREÇÃO: Pegamos a instância DA CAIXA e depois a CONEXÃO DE DENTRO DELA.
         $this->db = \Database::getInstance()->getConnection();
     }
 
@@ -31,5 +32,12 @@ class PedidoModel {
         $stmt->bindValue(':total', $total);
         $stmt->bindValue(':pedidoId', $pedidoId);
         return $stmt->execute();
+    }
+
+    public function findOrdersByUserId($userId) {
+        $stmt = $this->db->prepare("SELECT * FROM pedidos WHERE id_usuario = :userId AND status != 'carrinho' ORDER BY data_pedido DESC");
+        $stmt->bindValue(':userId', $userId);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 }
