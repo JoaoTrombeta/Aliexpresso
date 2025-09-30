@@ -7,6 +7,7 @@
     use Aliexpresso\Model\ProdutoFactory;
     use Aliexpresso\Model\CupomModel;
     use Aliexpresso\Model\PedidoModel;
+    use Aliexpresso\Helper\Export\CsvExportAdapter;
 
     class AdminController 
     {
@@ -108,7 +109,7 @@
         }
 
         /**
-         * [NOVO] Salva um produto (novo ou editado).
+         * Salva um produto (novo ou editado).
          */
         public function saveProduct() {
             if ($_POST) {
@@ -154,7 +155,7 @@
         }
 
         /**
-         * [NOVO] Deleta um produto.
+         * Deleta um produto.
          */
         public function deleteProduct() {
             $id = (int)($_GET['id'] ?? 0);
@@ -177,7 +178,7 @@
         }
 
         /**
-         * [NOVO] Salva um cupom (novo ou editado).
+         * Salva um cupom (novo ou editado).
          */
         public function saveCoupon() {
             if ($_POST) {
@@ -206,7 +207,7 @@
         }
 
         /**
-         * [NOVO] Deleta um cupom.
+         * Deleta um cupom.
          */
         public function deleteCoupon() {
             $id = (int)($_GET['id'] ?? 0);
@@ -218,31 +219,65 @@
         }
 
         public function vendas() {
-        // 1. Busca as estatísticas básicas (faturamento e total de vendas)
-        $salesStats = $this->pedidoModel->getSalesStats();
-        
-        // 2. Calcula o Ticket Médio (evita divisão por zero)
-        $ticketMedio = 0;
-        if (!empty($salesStats['total_vendas']) && $salesStats['total_vendas'] > 0) {
-            $ticketMedio = $salesStats['faturamento_total'] / $salesStats['total_vendas'];
+            // 1. Busca as estatísticas básicas (faturamento e total de vendas)
+            $salesStats = $this->pedidoModel->getSalesStats();
+            
+            // 2. Calcula o Ticket Médio (evita divisão por zero)
+            $ticketMedio = 0;
+            if (!empty($salesStats['total_vendas']) && $salesStats['total_vendas'] > 0) {
+                $ticketMedio = $salesStats['faturamento_total'] / $salesStats['total_vendas'];
+            }
+
+            // 3. Monta o array de estatísticas para a view
+            $stats = [
+                'faturamento_total' => $salesStats['faturamento_total'] ?? 0,
+                'total_vendas'      => $salesStats['total_vendas'] ?? 0,
+                'ticket_medio'      => $ticketMedio
+            ];
+
+            // 4. Busca os pedidos recentes para a tabela
+            $recentOrders = $this->pedidoModel->getRecentOrders();
+
+            // 5. [Futuro] Aqui você buscaria os dados para o gráfico de produtos mais vendidos
+            // $bestSellers = $this->itemPedidoModel->getBestSellers();
+
+            // 6. Carrega a view do dashboard, passando as variáveis $stats e $recentOrders
+            require_once __DIR__ . '/../view/admin/dashboard_vendas.php';
         }
 
-        // 3. Monta o array de estatísticas para a view
-        $stats = [
-            'faturamento_total' => $salesStats['faturamento_total'] ?? 0,
-            'total_vendas'      => $salesStats['total_vendas'] ?? 0,
-            'ticket_medio'      => $ticketMedio
-        ];
+        public function exportarDados() {
+            $tipo = $_GET['tipo'] ?? 'pedidos';
+            $formato = $_GET['formato'] ?? 'json';
 
-        // 4. Busca os pedidos recentes para a tabela
-        $recentOrders = $this->pedidoModel->getRecentOrders();
+            $dados = [];
+            $nomeArquivo = 'relatorio';
 
-        // 5. [Futuro] Aqui você buscaria os dados para o gráfico de produtos mais vendidos
-        // $bestSellers = $this->itemPedidoModel->getBestSellers();
+            // 1. Busca os dados com base no 'tipo' solicitado
+            if ($tipo === 'pedidos') {
+                // Usamos o método que já existe para pegar pedidos com nome do cliente
+                $dados = $this->pedidoModel->getRecentOrders(9999); // Limite alto para pegar todos
+                $nomeArquivo = 'pedidos_' . date('Y-m-d');
+            } elseif ($tipo === 'usuarios') {
+                $dados = $this->userModel->getAll();
+                $nomeArquivo = 'usuarios_' . date('Y-m-d');
+            }
 
-        // 6. Carrega a view do dashboard, passando as variáveis $stats e $recentOrders
-        require_once __DIR__ . '/../view/admin/dashboard_vendas.php';
-    }
+            // 2. Decide qual formato usar
+            if ($formato === 'json') {
+                // IMPLEMENTAÇÃO NATIVA:
+                header('Content-Type: application/json');
+                header('Content-Disposition: attachment; filename="' . $nomeArquivo . '.json"');
+                echo json_encode($dados, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+            } elseif ($formato === 'csv') {
+                // IMPLEMENTAÇÃO COM ADAPTER:
+                $csvAdapter = new CsvExportAdapter();
+                $csvAdapter->exportar($dados, $nomeArquivo);
+            }
+            
+            // Impede que o resto do HTML seja renderizado
+            exit();
+        }
 
     }
 ?>

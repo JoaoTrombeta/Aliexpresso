@@ -66,6 +66,17 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
+                <h2>Exportar Dados</h2>
+                <p>Baixe os relatórios do sistema em formato CSV ou JSON.</p>
+                <div class="export-buttons">
+                    <strong>Pedidos:</strong>
+                    <a href="./?page=admin&action=exportarDados&tipo=pedidos&formato=csv" class="btn-export">Baixar CSV</a>
+                    <a href="./?page=admin&action=exportarDados&tipo=pedidos&formato=json" class="btn-export">Baixar JSON</a>
+                    <br><br>
+                    <strong>Usuários:</strong>
+                    <a href="./?page=admin&action=exportarDados&tipo=usuarios&formato=csv" class="btn-export">Baixar CSV</a>
+                    <a href="./?page=admin&action=exportarDados&tipo=usuarios&formato=json" class="btn-export">Baixar JSON</a>
+                </div>
             </div>
         </div>
     </main>
