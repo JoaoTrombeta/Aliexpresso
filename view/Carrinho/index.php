@@ -106,7 +106,7 @@
                         <strong>Total:</strong>
                         <strong>R$ <?= number_format($total, 2, ',', '.') ?></strong>
                     </div>
-                    <a href="/?page=pedido&action=finalizar" style="text-decoration: none;">
+                    <a href="./?page=pedido&action=finalizar" style="text-decoration: none;">
                         <button class="btn-finalizar">Finalizar Compra</button>
                     </a>
                     <a href="index.php?page=produto" class="btn-continuar-comprando">Continuar Comprando</a>

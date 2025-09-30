@@ -40,4 +40,15 @@ class PedidoModel {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
+
+    public function finalizeCart($pedidoId, $total) {
+        $stmt = $this->db->prepare(
+            "UPDATE pedidos 
+             SET status = 'concluido', data_pedido = NOW(), valor_total = :total 
+             WHERE id_pedido = :pedidoId"
+        );
+        $stmt->bindValue(':total', $total);
+        $stmt->bindValue(':pedidoId', $pedidoId);
+        return $stmt->execute();
+    }
 }
