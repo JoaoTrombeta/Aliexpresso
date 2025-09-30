@@ -217,18 +217,32 @@
             exit();
         }
 
-        /**
-         * [NOVO] Mostra a página do dashboard de vendas.
-         */
         public function vendas() {
-            // Busca todos os dados necessários do modelo
-            $stats = $this->pedidoModel->getSalesStatistics();
-            $bestSellers = $this->pedidoModel->getBestSellingProducts();
-            $recentOrders = $this->pedidoModel->getRecentOrders();
-
-            // Passa os dados para a view
-            require_once __DIR__ . '/../view/admin/dashboard_vendas.php';
+        // 1. Busca as estatísticas básicas (faturamento e total de vendas)
+        $salesStats = $this->pedidoModel->getSalesStats();
+        
+        // 2. Calcula o Ticket Médio (evita divisão por zero)
+        $ticketMedio = 0;
+        if (!empty($salesStats['total_vendas']) && $salesStats['total_vendas'] > 0) {
+            $ticketMedio = $salesStats['faturamento_total'] / $salesStats['total_vendas'];
         }
+
+        // 3. Monta o array de estatísticas para a view
+        $stats = [
+            'faturamento_total' => $salesStats['faturamento_total'] ?? 0,
+            'total_vendas'      => $salesStats['total_vendas'] ?? 0,
+            'ticket_medio'      => $ticketMedio
+        ];
+
+        // 4. Busca os pedidos recentes para a tabela
+        $recentOrders = $this->pedidoModel->getRecentOrders();
+
+        // 5. [Futuro] Aqui você buscaria os dados para o gráfico de produtos mais vendidos
+        // $bestSellers = $this->itemPedidoModel->getBestSellers();
+
+        // 6. Carrega a view do dashboard, passando as variáveis $stats e $recentOrders
+        require_once __DIR__ . '/../view/admin/dashboard_vendas.php';
+    }
 
     }
 ?>

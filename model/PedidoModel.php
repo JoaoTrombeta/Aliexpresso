@@ -52,70 +52,32 @@ class PedidoModel {
         return $stmt->execute();
     }
 
-    /**
-     * [NOVO] Busca as estatísticas gerais de vendas.
-     * Considera como "venda" qualquer pedido com status 'pago', 'enviado' ou 'entregue'.
-     */
-    public function getSalesStatistics(): array {
-        $stmt = $this->pdo->query("
-            SELECT
-                COUNT(id_pedido) as total_vendas,
-                SUM(valor_total) as faturamento_total
-            FROM pedidos
-            WHERE status IN ('pago', 'enviado', 'entregue')
-        ");
-        $stats = $stmt->fetch();
-        
-        // Calcula a média, evitando divisão por zero
-        $stats['ticket_medio'] = ($stats['total_vendas'] > 0) 
-            ? $stats['faturamento_total'] / $stats['total_vendas'] 
-            : 0;
-
-        return $stats;
+    public function getSalesStats() {
+        // Esta query calcula a SOMA de 'valor_total' e a CONTAGEM de pedidos
+        // apenas para os pedidos que foram concluídos.
+        $stmt = $this->pdo->prepare(
+            "SELECT 
+                SUM(valor_total) as faturamento_total, 
+                COUNT(id_pedido) as total_vendas 
+             FROM pedidos 
+             WHERE status != 'carrinho'"
+        );
+        $stmt->execute();
+        return $stmt->fetch(\PDO::FETCH_ASSOC); // Retorna um array associativo
     }
-
-    /**
-     * [NOVO] Busca os produtos mais vendidos.
-     *
-     * @param int $limit O número de produtos a retornar.
-     * @return array Lista dos produtos mais vendidos.
-     */
-    public function getBestSellingProducts(int $limit = 5): array {
-        $stmt = $this->pdo->query("
-            SELECT
-                p.nome,
-                SUM(ip.quantidade) as total_vendido
-            FROM itens_pedido ip
-            JOIN produtos p ON ip.id_produto = p.id_produto
-            JOIN pedidos o ON ip.id_pedido = o.id_pedido
-            WHERE o.status IN ('pago', 'enviado', 'entregue')
-            GROUP BY p.id_produto, p.nome
-            ORDER BY total_vendido DESC
-            LIMIT $limit
-        ");
-        return $stmt->fetchAll();
-    }
-
-    /**
-     * [NOVO] Busca os pedidos mais recentes.
-     *
-     * @param int $limit O número de pedidos a retornar.
-     * @return array Lista dos pedidos mais recentes.
-     */
-    public function getRecentOrders(int $limit = 5): array {
-        $stmt = $this->pdo->query("
-            SELECT
-                o.id_pedido,
-                u.nome as nome_cliente,
-                o.data_pedido,
-                o.valor_total,
-                o.status
-            FROM pedidos o
-            JOIN usuarios u ON o.id_usuario = u.id_usuario
-            WHERE o.status IN ('pago', 'enviado', 'entregue')
-            ORDER BY o.data_pedido DESC
-            LIMIT $limit
-        ");
-        return $stmt->fetchAll();
+    
+    public function getRecentOrders($limit = 5) {
+        // Esta query busca os pedidos e junta (JOIN) com a tabela de usuários para pegar o nome
+        $stmt = $this->pdo->prepare(
+            "SELECT p.id_pedido, u.nome as nome_cliente, p.data_pedido, p.valor_total
+             FROM pedidos p
+             JOIN usuarios u ON p.id_usuario = u.id_usuario
+             WHERE p.status != 'carrinho'
+             ORDER BY p.data_pedido DESC
+             LIMIT :limit"
+        );
+        $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
