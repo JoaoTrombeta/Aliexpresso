@@ -104,4 +104,21 @@ class PedidoModel {
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result ? (int)$result['total'] : 0;
     }
+
+    public function getLastFiveOrdersTotal($userId) {
+        $stmt = $this->pdo->prepare(
+            "SELECT SUM(valor_final) as total
+            FROM (
+                SELECT valor_final
+                FROM pedidos
+                WHERE id_usuario = :userId AND status != 'carrinho'
+                ORDER BY data_pedido DESC
+                LIMIT 5
+            ) as ultimos_pedidos"
+        );
+        $stmt->bindValue(':userId', $userId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ? (float)$result['total'] : 0;
+    }
 }

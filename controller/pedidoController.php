@@ -76,19 +76,37 @@ class PedidoController {
         // [LÓGICA DO CUPOM DE FIDELIDADE EXISTENTE]
         // ==========================================================
         $totalPedidosCliente = $this->pedidoModel->countCompletedOrdersByUserId($userId);
+
         if ($totalPedidosCliente > 0 && $totalPedidosCliente % 5 === 0) {
             $codigoCupom = 'FIDELIDADE-' . strtoupper(uniqid());
+
+            // Verifica o total das últimas 5 compras
+            $totalUltimasCinco = $this->pedidoModel->getLastFiveOrdersTotal($userId);
+
+            if ($totalUltimasCinco >= 1000) {
+                $valorDesconto = 20; // 20%
+                $descricao = "Cupom de 20% por ter gasto R$500 ou mais nas últimas 5 compras!";
+            } elseif($totalUltimasCinco >= 500) {
+                $valorDesconto = 15; // 15%
+                $descricao = "Cupom de 15% por ter feito {$totalPedidosCliente} compras!";
+            } else {
+                $valorDesconto = 10; // 10%
+                $descricao = "Cupom de 10% por ter feito {$totalPedidosCliente} compras!";
+            }
+
             $dadosCupom = [
                 'codigo'        => $codigoCupom,
-                'descricao'     => "Cupom de 10% por ter feito {$totalPedidosCliente} compras!",
-                'valor_desconto'=> 10,
+                'descricao'     => $descricao,
+                'valor_desconto'=> $valorDesconto,
                 'tipo'          => 'percentual',
                 'data_validade' => date('Y-m-d H:i:s', strtotime('+60 days')),
                 'status'        => 'ativo'
             ];
+
             $this->cupomModel->create($dadosCupom);
-            $_SESSION['mensagem_cupom_fidelidade'] = 
-                "Parabéns! Você ganhou um cupom de 10%: <strong>{$codigoCupom}</strong>";
+
+            $_SESSION['mensagem_cupom_fidelidade'] =
+                "Parabéns! Você ganhou um cupom de {$valorDesconto}%: <strong>{$codigoCupom}</strong>";
         }
 
         header('Location: ./?page=pedido&action=historico&sucesso=1');
@@ -116,5 +134,7 @@ class PedidoController {
         // 3. Renderiza a página de histórico, passando a lista completa de pedidos
         require_once __DIR__ . '/../view/pedidos/historico.php';
     }
+
+    
 
 }
