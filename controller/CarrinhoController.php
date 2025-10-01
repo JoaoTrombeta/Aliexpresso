@@ -148,11 +148,44 @@
         
         // Seus métodos de cupom...
         public function applyCoupon() {
-            // ...
+            $code = trim($_POST['coupon_code'] ?? '');
+
+            if ($code === '') {
+                $_SESSION['coupon_message'] = [
+                    'type' => 'error',
+                    'text' => 'Digite um código de cupom válido.'
+                ];
+                header('Location: index.php?page=carrinho');
+                exit();
+            }
+
+            $coupon = $this->cupomModel->findByCode($code);
+
+            if ($coupon) {
+                $_SESSION['applied_coupon'] = $coupon;
+                $_SESSION['coupon_message'] = [
+                    'type' => 'success',
+                    'text' => 'Cupom aplicado com sucesso!'
+                ];
+            } else {
+                $_SESSION['coupon_message'] = [
+                    'type' => 'error',
+                    'text' => 'Cupom inválido ou expirado.'
+                ];
+            }
+
+            header('Location: index.php?page=carrinho');
+            exit();
         }
 
         public function removeCoupon() {
-            // ...
+            unset($_SESSION['applied_coupon']);
+            $_SESSION['coupon_message'] = [
+                'type' => 'success',
+                'text' => 'Cupom removido com sucesso.'
+            ];
+            header('Location: index.php?page=carrinho');
+            exit();
         }
     }
 ?>

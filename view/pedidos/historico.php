@@ -31,6 +31,17 @@
     <main class="historico-container">
         <h1>Meus Pedidos</h1>
 
+        <?php if (isset($_SESSION['mensagem_cupom_fidelidade'])): ?>
+            <div class="mensagem-sucesso" style="background-color: #d1ecf1; color: #0c5460; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; border: 1px solid #bee5eb;">
+                <?= $_SESSION['mensagem_cupom_fidelidade'] ?>
+            </div>
+            <?php unset($_SESSION['mensagem_cupom_fidelidade']); // Limpa a mensagem para não mostrar de novo ?>
+        <?php endif; ?>
+
+        <?php if (isset($_GET['sucesso'])): ?>
+            <div class="mensagem-sucesso">Seu pedido foi finalizado com sucesso!</div>
+        <?php endif; ?>
+
         <?php if (empty($pedidos)): ?>
             <div class="pedido-card">
                 <div style="padding: 1.5rem;">
@@ -47,7 +58,12 @@
                             <p>Data: <?= date('d/m/Y', strtotime($pedido->data_pedido)) ?></p>
                         </div>
                         <div style="text-align: right;">
-                            <strong>Total: R$ <?= number_format($pedido->valor_total, 2, ',', '.') ?></strong>
+                            <strong>Total pago: R$ <?= number_format($pedido->valor_final, 2, ',', '.') ?></strong>
+                            <?php if ($pedido->desconto > 0): ?>
+                                <p style="color: #28a745; font-size: 0.85em;">
+                                    Você economizou R$ <?= number_format($pedido->desconto, 2, ',', '.') ?>
+                                </p>
+                            <?php endif; ?>
                             <p>Status: <span class="status status-<?= strtolower($pedido->status) ?>"><?= ucfirst($pedido->status) ?></span></p>
                         </div>
                     </div>

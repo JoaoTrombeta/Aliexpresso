@@ -52,20 +52,36 @@ class PedidoModel {
         return $stmt->execute();
     }
 
+    public function finalizeCartWithDiscount($pedidoId, $total, $desconto, $valorFinal) {
+    $stmt = $this->pdo->prepare(
+        "UPDATE pedidos 
+         SET status = 'concluido',
+             data_pedido = NOW(),
+             valor_total = :total,
+             desconto = :desconto,
+             valor_final = :valorFinal
+         WHERE id_pedido = :pedidoId"
+    );
+    $stmt->bindValue(':total', $total);
+    $stmt->bindValue(':desconto', $desconto);
+    $stmt->bindValue(':valorFinal', $valorFinal);
+    $stmt->bindValue(':pedidoId', $pedidoId);
+    return $stmt->execute();
+}
+
     public function getSalesStats() {
-        // Esta query calcula a SOMA de 'valor_total' e a CONTAGEM de pedidos
-        // apenas para os pedidos que foram concluídos.
+        // Agora usamos valor_final em vez de valor_total
         $stmt = $this->pdo->prepare(
             "SELECT 
-                SUM(valor_total) as faturamento_total, 
+                SUM(valor_final) as faturamento_total, 
                 COUNT(id_pedido) as total_vendas 
-             FROM pedidos 
-             WHERE status != 'carrinho'"
+            FROM pedidos 
+            WHERE status != 'carrinho'"
         );
         $stmt->execute();
-        return $stmt->fetch(\PDO::FETCH_ASSOC); // Retorna um array associativo
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-    
+
     public function getRecentOrders($limit = 5) {
         // Esta query busca os pedidos e junta (JOIN) com a tabela de usuários para pegar o nome
         $stmt = $this->pdo->prepare(
@@ -79,5 +95,13 @@ class PedidoModel {
         $stmt->bindValue(':limit', $limit, \PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function countCompletedOrdersByUserId($userId) {
+        $stmt = $this->pdo->prepare("SELECT COUNT(id_pedido) as total FROM pedidos WHERE id_usuario = :userId AND status != 'carrinho'");
+        $stmt->bindValue(':userId', $userId);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result ? (int)$result['total'] : 0;
     }
 }

@@ -69,7 +69,7 @@
                         <?php else: ?>
                             <a id="coupon-toggle-btn" class="coupon-toggle">Adicionar cupom de desconto</a>
                             <div id="coupon-form-container" class="coupon-form-container">
-                                <form action="index.php?page=carrinho&action=applyCoupon" method="post" class="coupon-form">
+                                <form action="./?page=carrinho&action=applyCoupon" method="post" class="coupon-form">
                                     <input type="text" name="coupon_code" placeholder="Digite seu cupom" oninput="this.value = this.value.toUpperCase()">
                                     <button type="submit">Aplicar</button>
                                 </form>

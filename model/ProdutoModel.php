@@ -48,7 +48,7 @@
         }
 
         public function create(array $data): bool {
-            $sql = "INSERT INTO produtos (nome, descricao, preco, quantidade_estoque, categoria, imagem, status, id_vendedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO produtos (nome, descricao, preco, quantidade_estoque, categoria, imagem, status, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->pdo->prepare($sql);
             return $stmt->execute([
                 $data['nome'], $data['descricao'], $data['preco'], $data['quantidade_estoque'],

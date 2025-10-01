@@ -4,11 +4,13 @@ namespace Aliexpresso\Controller;
 use Aliexpresso\Model\PedidoModel;
 use Aliexpresso\Model\ItemPedidoModel;
 use Aliexpresso\Helper\Auth;
+use Aliexpresso\Model\CupomModel;
 
 class PedidoController {
 
     private $pedidoModel;
     private $itemPedidoModel;
+    private $cupomModel;
 
     public function __construct() {
         // Garante que apenas usuários logados possam acessar esta área
@@ -18,49 +20,81 @@ class PedidoController {
         }
         $this->pedidoModel = new PedidoModel();
         $this->itemPedidoModel = new ItemPedidoModel();
+        $this->cupomModel = new CupomModel();
     }
 
     public function finalizar() {
         $userId = Auth::user()['id_usuario'];
-
-        // 1. Encontra o carrinho ativo do usuário no banco
         $carrinho = $this->pedidoModel->findCartByUserId($userId);
 
-        // 2. Validação: Se não houver carrinho ou a sessão estiver vazia, volta para o carrinho
         if (!$carrinho || empty($_SESSION['carrinho']['produtos'])) {
-            header('Location: ./?page=carrinho&erro=vazio');
+            header('Location: /?page=carrinho&erro=vazio');
             exit();
         }
-        
-        // 3. Calcula o total final a partir da sessão (considerando cupons)
-        $subtotal = 0;
-        foreach ($_SESSION['carrinho']['produtos'] as $item) {
-            $subtotal += $item['preco'] * $item['quantidade'];
-        }
-        
-        $discount = 0;
+
+        $total = $_SESSION['carrinho']['total'] ?? $carrinho->valor_total;
+        $desconto = 0;
+
+        // ==========================================================
+        // [LÓGICA DE CUPOM]
+        // ==========================================================
         if (isset($_SESSION['applied_coupon'])) {
             $coupon = $_SESSION['applied_coupon'];
-            if ($coupon['tipo'] === 'fixo') {
-                $discount = $coupon['valor_desconto'];
-            } elseif ($coupon['tipo'] === 'percentual') {
-                $discount = ($subtotal * $coupon['valor_desconto']) / 100;
+
+            if ($coupon['tipo'] === 'percentual') {
+                $desconto = $total * ($coupon['valor_desconto'] / 100);
+            } elseif ($coupon['tipo'] === 'fixo') {
+                $desconto = $coupon['valor_desconto'];
+            }
+
+            // Marcar cupom como usado
+            $this->cupomModel->markAsUsed(
+                (int)$coupon['id_cupom'],
+                $userId,
+                (int)$carrinho->id_pedido
+            );
+
+            // Se for fidelidade, inativar
+            if (str_starts_with($coupon['codigo'], 'FIDELIDADE')) {
+                $this->cupomModel->deactivateCoupon((int)$coupon['id_cupom']);
             }
         }
-        $totalFinal = $subtotal - $discount;
 
-        // 4. Usa o método do Model para "oficializar" o pedido no banco de dados
-        // Ele vai mudar o status de 'carrinho' para 'concluido' e atualizar a data e o valor.
-        $this->pedidoModel->finalizeCart($carrinho->id_pedido, $totalFinal);
+        $valorFinal = max($total - $desconto, 0);
 
-        // 5. Limpa o carrinho da sessão, pois a compra foi concluída
-        unset($_SESSION['carrinho']);
-        unset($_SESSION['applied_coupon']); // Limpa também o cupom aplicado
-        
-        // 6. Redireciona o usuário para a página de histórico com uma mensagem de sucesso
+        // Salvar no banco
+        $this->pedidoModel->finalizeCartWithDiscount(
+            $carrinho->id_pedido,
+            $total,
+            $desconto,
+            $valorFinal
+        );
+
+        unset($_SESSION['carrinho'], $_SESSION['applied_coupon']);
+
+        // ==========================================================
+        // [LÓGICA DO CUPOM DE FIDELIDADE EXISTENTE]
+        // ==========================================================
+        $totalPedidosCliente = $this->pedidoModel->countCompletedOrdersByUserId($userId);
+        if ($totalPedidosCliente > 0 && $totalPedidosCliente % 5 === 0) {
+            $codigoCupom = 'FIDELIDADE-' . strtoupper(uniqid());
+            $dadosCupom = [
+                'codigo'        => $codigoCupom,
+                'descricao'     => "Cupom de 10% por ter feito {$totalPedidosCliente} compras!",
+                'valor_desconto'=> 10,
+                'tipo'          => 'percentual',
+                'data_validade' => date('Y-m-d H:i:s', strtotime('+60 days')),
+                'status'        => 'ativo'
+            ];
+            $this->cupomModel->create($dadosCupom);
+            $_SESSION['mensagem_cupom_fidelidade'] = 
+                "Parabéns! Você ganhou um cupom de 10%: <strong>{$codigoCupom}</strong>";
+        }
+
         header('Location: ./?page=pedido&action=historico&sucesso=1');
         exit();
     }
+
 
     /**
      * Exibe o histórico de todos os pedidos finalizados do cliente.
@@ -83,6 +117,4 @@ class PedidoController {
         require_once __DIR__ . '/../view/pedidos/historico.php';
     }
 
-    // O método finalizar() que criamos antes entrará aqui também, 
-    // mas vamos focar no histórico primeiro.
 }
