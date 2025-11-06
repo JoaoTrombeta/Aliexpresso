@@ -156,3 +156,33 @@ header .site-logo img {
     display: inline-block; /* Mudamos para inline-block para melhor alinhamento em flex */
     vertical-align: middle; /* Tenta alinhar na metade da altura da linha */
 }
+
+/* [NOVO] Estilo para o avatar padrão (a inicial) */
+.user-avatar-default {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--cor-destaque, #a67c52); /* Usa a cor de destaque do seu tema */
+    color: white;
+    
+    /* Centra a letra dentro do círculo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box; /* Garante que o tamanho seja exato */
+    border: 1px solid rgba(0,0,0,0.1); /* Borda subtil */
+}
+
+.user-avatar-default span {
+    line-height: 1; /* Alinhamento vertical da letra */
+}
+
+/* Garante que a <img> de perfil também seja circular */
+img.user-icon {
+    object-fit: cover; /* Garante que a imagem preencha o círculo */
+    border: 1px solid rgba(0,0,0,0.1);
+}

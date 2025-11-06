@@ -1,4 +1,11 @@
 <?php
+/**
+ * ARQUIVO: controller/pageController.php (ATUALIZADO E CORRIGIDO)
+ *
+ * 1. Adiciona a lógica do Avatar Dinâmico.
+ * 2. Adiciona o link "Meu Perfil".
+ * 3. Corrige o erro de sintaxe no renderFooter() que impedia o header.js de carregar.
+ */
     namespace Aliexpresso\Controller;
 
     use Aliexpresso\Helper\Auth;
@@ -8,13 +15,9 @@
         public static function renderHeader() {
             $logado = Auth::isLoggedIn();
 
-            $totalItems = 0; // Inicia a contagem como 0
-            
-            // Verifica se o carrinho e a chave 'produtos' existem na sessão
+            $totalItems = 0; 
             if (isset($_SESSION['carrinho']) && !empty($_SESSION['carrinho']['produtos'])) {
-                // Pega apenas a coluna 'quantidade' de cada produto no carrinho
                 $quantities = array_column($_SESSION['carrinho']['produtos'], 'quantidade');
-                // Soma todos os valores da coluna 'quantidade' para ter o total real de itens
                 $totalItems = array_sum($quantities);
             }
         ?>
@@ -33,19 +36,41 @@
                         </a>
                     <?php endif; ?>
 
-                    <img src="https://placehold.co/30x30/eeeeee/777777?text=User" alt="Usuário" class="icon user-icon" id="userIconTrigger">
+                    <!-- [LÓGICA DO AVATAR DINÂMICO COMEÇA AQUI] -->
+                    <?php if ($logado): ?>
+                        <?php 
+                            $userImage = Auth::user()['imagem_perfil'] ?? null;
+                            $userName = Auth::user()['nome'];
+                            $userInitial = mb_strtoupper(mb_substr($userName, 0, 1));
+                        ?>
+                        
+                        <?php if (!empty($userImage)): ?>
+                            <!-- Se tem imagem de perfil, mostra a <img> -->
+                            <img src="<?= htmlspecialchars($userImage) ?>" alt="Imagem de Perfil" class="icon user-icon" id="userIconTrigger">
+                        <?php else: ?>
+                            <!-- Se não tem imagem, mostra a <div> com a inicial -->
+                            <div class="user-avatar-default icon user-icon" id="userIconTrigger" title="<?= htmlspecialchars($userName) ?>">
+                                <span><?= $userInitial ?></span>
+                            </div>
+                        <?php endif; ?>
+
+                    <?php else: ?>
+                        <!-- Se não está logado, mostra o placeholder padrão -->
+                        <img src="https://placehold.co/30x30/eeeeee/777777?text=User" alt="Usuário" class="icon user-icon" id="userIconTrigger">
+                    <?php endif; ?>
+                    <!-- [FIM DA LÓGICA DO AVATAR] -->
                     
                     <div class="menu-container"> 
                         <nav class="dropdown-menu" id="userDropdownMenu">
                             <?php if ($logado): ?>
                                 <div class="user-info">
-                                    <?= htmlspecialchars(\Aliexpresso\Helper\Auth::user()['nome']) ?>
+                                    <?= htmlspecialchars(Auth::user()['nome']) ?>
                                 </div>
-
-                                <?php if (\Aliexpresso\Helper\Auth::isAdmin()): ?>
+                                <a href="index.php?page=usuario&action=perfil">Meu Perfil</a>
+                                <?php if (Auth::isAdmin()): ?>
                                     <a href="index.php?page=admin">Painel do Admin</a>
                                 <?php endif; ?>
-                                <?php if (\Aliexpresso\Helper\Auth::isClient()): ?>
+                                <?php if (Auth::isClient()): ?>
                                     <a href="index.php?page=pedido&action=historico">Meus Pedidos</a>
                                 <?php endif; ?>
                                 <a href="index.php?page=usuario&action=config">Configurações</a>
@@ -66,7 +91,8 @@
             <footer>
                 <p>&copy; <?= date('Y') ?> Aliexpresso. Todos os direitos reservados.</p>
             </footer>
-            <script src="./assets/js/header.js"
+            <!-- [CORREÇÃO DE SINTAXE] A tag <script> agora está fechada corretamente -->
+            <script src="./assets/js/header.js"></script>
         <?php
         }
     }

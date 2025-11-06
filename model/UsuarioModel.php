@@ -54,5 +54,14 @@
             $stmt = $this->pdo->prepare("DELETE FROM usuarios WHERE id_usuario = ?");
             return $stmt->execute([$id]);
         }
+
+        /**
+         * [NOVO] Atualiza apenas o caminho da imagem de perfil do utilizador.
+         */
+        public function updateProfileImage(int $userId, string $imagePath): bool {
+            $sql = "UPDATE usuarios SET imagem_perfil = ? WHERE id_usuario = ?";
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([$imagePath, $userId]);
+        }
     }
 ?>
