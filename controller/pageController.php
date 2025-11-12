@@ -91,8 +91,8 @@
             <footer>
                 <p>&copy; <?= date('Y') ?> Aliexpresso. Todos os direitos reservados.</p>
             </footer>
-            <!-- [CORREÇÃO DE SINTAXE] A tag <script> agora está fechada corretamente -->
-            <script src="./assets/js/header.js"></script>
+            <script src="assets/js/header.js"></script>
+            <script src="assets/js/carrinho.js"></script>
         <?php
         }
     }

@@ -30,7 +30,15 @@
         }
 
         public function store() {
-            if ($this->userModel->create($_POST)) {
+            $data = [
+                'nome' => $_POST['nome'] ?? null,
+                'email' => $_POST['email'] ?? null,
+                'senha' => $_POST['senha'] ?? null
+            ];
+
+            $data['tipo'] = 'cliente';
+
+            if ($this->userModel->create($data)) {
                 header('Location: index.php?page=usuario&action=login&sucesso=1');
             } else {
                 header('Location: index.php?page=usuario&action=register&erro=1');
@@ -108,7 +116,7 @@
             }
 
             // Carrega a view e passa os dados
-            require_once __DIR__ . '/../view/usuario/perfil.php';
+            require_once __DIR__ . '/../view/usuarios/perfil.php';
         }
 
         /**

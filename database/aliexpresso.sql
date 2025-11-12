@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06-Nov-2025 às 21:59
+-- Tempo de geração: 12-Nov-2025 às 21:23
 -- Versão do servidor: 10.4.27-MariaDB
 -- versão do PHP: 8.2.0
 
@@ -83,12 +83,20 @@ CREATE TABLE `enderecos` (
   `cep` varchar(9) NOT NULL,
   `logradouro` varchar(255) NOT NULL,
   `numero` varchar(30) NOT NULL,
-  `complemento` varchar(100) DEFAULT NULL,
+  `complemento` varchar(40) DEFAULT NULL,
   `bairro` varchar(100) NOT NULL,
   `cidade` varchar(100) NOT NULL,
   `uf` varchar(2) NOT NULL,
   `is_principal` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `enderecos`
+--
+
+INSERT INTO `enderecos` (`id_endereco`, `id_usuario`, `cep`, `logradouro`, `numero`, `complemento`, `bairro`, `cidade`, `uf`, `is_principal`) VALUES
+(1, 1, '19200-009', 'Rua Angelo Salvatori', '123', '', 'Centro', 'Pirapozinho', 'SP', 0),
+(2, 1, '19036-102', 'Rua Antonio Custódio Spiguel', '66', 'Casa do CamargoCasa do CamargoCasaCasa d', 'Conjunto Habitacional João Domingos Netto', 'Presidente Prudente', 'SP', 0);
 
 -- --------------------------------------------------------
 
@@ -133,7 +141,10 @@ INSERT INTO `itens_pedido` (`id_item`, `id_pedido`, `id_produto`, `quantidade`, 
 (143, 15, 2, 1, '10.00'),
 (147, 16, 3, 1, '70.00'),
 (148, 16, 1, 1, '20.00'),
-(149, 16, 2, 1, '10.00');
+(149, 16, 2, 1, '10.00'),
+(571, 17, 1, 348, '20.00'),
+(572, 17, 4, 2, '65.87'),
+(573, 17, 2, 24, '10.00');
 
 -- --------------------------------------------------------
 
@@ -172,7 +183,9 @@ INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `data_pedido`, `status`, `form
 (13, 1, '2025-09-30 21:46:15', 'concluido', NULL, '10.00', '0.00', '10.00'),
 (14, 1, '2025-09-30 21:46:22', 'concluido', NULL, '10.00', '0.00', '10.00'),
 (15, 1, '2025-09-30 21:46:27', 'concluido', NULL, '10.00', '0.00', '10.00'),
-(16, 1, '2025-09-30 21:46:44', 'concluido', NULL, '100.00', '10.00', '90.00');
+(16, 1, '2025-09-30 21:46:44', 'concluido', NULL, '100.00', '10.00', '90.00'),
+(17, 5, '2025-11-12 17:11:21', 'concluido', NULL, '7331.74', '0.00', '7331.74'),
+(18, 1, '2025-11-12 17:18:06', 'carrinho', NULL, '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -224,10 +237,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `imagem_perfil`, `data_cadastro`) VALUES
-(1, 'Trombeta', 'trombeta@gmail.com', '$2y$10$X2iV02mfs4Ih4fuNtn1p5uNtisYF7v5uIslyLr8/FmOk0UeqdhmPm', 'cliente', NULL, '2025-06-20 23:05:40'),
+(1, 'Trombeta', 'trombeta@gmail.com', '$2y$10$X2iV02mfs4Ih4fuNtn1p5uNtisYF7v5uIslyLr8/FmOk0UeqdhmPm', 'cliente', 'assets/images/perfil/1_6914eac5d93cb.jpg', '2025-06-20 23:05:40'),
 (2, 'Ademiros', 'admin@gmail.com', '$2y$10$X2iV02mfs4Ih4fuNtn1p5uNtisYF7v5uIslyLr8/FmOk0UeqdhmPm', 'admin', NULL, '2025-06-21 20:57:29'),
 (3, 'Geraldo', 'gerente@gmail.com', '$2y$10$FxOZo.RKkSN4kS3.51rlzOfkk2sAfbtsrsulQPvGDVvtcIRyyKVCq', 'gerente', NULL, '2025-06-21 21:41:47'),
-(4, 'Vergil', 'vendedor@gmail.com', '$2y$10$X2iV02mfs4Ih4fuNtn1p5uNtisYF7v5uIslyLr8/FmOk0UeqdhmPm', 'vendedor', NULL, '2025-06-21 21:43:11');
+(4, 'Vergil', 'vendedor@gmail.com', '$2y$10$X2iV02mfs4Ih4fuNtn1p5uNtisYF7v5uIslyLr8/FmOk0UeqdhmPm', 'vendedor', NULL, '2025-06-21 21:43:11'),
+(5, 'CamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCamargoCa', 'Camargo@gmail.com', '$2y$10$pVxNLGrZ37UvohZxa4ZLx.yZ7DHmnDzo0H1RpYaAR0dN.Eu2Y2jl6', 'cliente', 'assets/images/perfil/5_6914eabf1c1ba.jpg', '2025-11-12 17:09:08');
 
 --
 -- Índices para tabelas despejadas
@@ -305,19 +319,19 @@ ALTER TABLE `cupons_usados`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_endereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=842;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -329,7 +343,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restrições para despejos de tabelas

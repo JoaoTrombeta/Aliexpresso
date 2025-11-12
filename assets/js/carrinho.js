@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. Lógica para Adicionar ao Carrinho
     const addToCartButtons = document.querySelectorAll('.js-add-to-cart');
-
     addToCartButtons.forEach(button => {
         button.addEventListener('click', function(event) {
             event.preventDefault(); // Impede o redirecionamento do link
@@ -16,8 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Atualiza o contador do carrinho no header
-                        updateCartCounter(data.cartCount);
+                        // Tenta atualizar o contador (usa 'totalItems' do seu ajax_add ou 'cartCount')
+                        const count = data.cartCount || data.totalItems || 0;
+                        updateCartCounter(count);
+                        
                         // Mostra uma notificação de sucesso
                         showCartNotification('Produto adicionado ao carrinho!');
                         // Altera o texto do botão para confirmar a ação
@@ -41,10 +44,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         });
     });
-});
 
+    // 2. Lógica do Cupom na Página do Carrinho
+    const toggleBtn = document.getElementById('coupon-toggle-btn');
+    const formContainer = document.getElementById('coupon-form-container');
+
+    if (toggleBtn && formContainer) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Impede que o link navegue
+            // Mostra ou esconde o formulário
+            if (formContainer.style.display === 'block') {
+                formContainer.style.display = 'none';
+            } else {
+                formContainer.style.display = 'block';
+            }
+        });
+    }
+
+}); // Fim do DOMContentLoaded
+
+// Funções de ajuda (fora do DOMContentLoaded)
 function updateCartCounter(count) {
-    const cartBadge = document.getElementById('cartItemCount');
+    // O seu pageController.php usa 'cart-count' como ID
+    const cartBadge = document.getElementById('cart-count'); 
+
     if (cartBadge) {
         cartBadge.innerText = count;
         // Garante que o badge seja visível se houver itens
@@ -70,20 +93,3 @@ function showCartNotification(message, type = 'success') {
         notification.addEventListener('transitionend', () => notification.remove());
     }, 3000);
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('coupon-toggle-btn');
-            const formContainer = document.getElementById('coupon-form-container');
-
-            if (toggleBtn && formContainer) {
-                toggleBtn.addEventListener('click', function(e) {
-                    e.preventDefault(); // Impede que o link navegue
-                    // Mostra ou esconde o formulário
-                    if (formContainer.style.display === 'block') {
-                        formContainer.style.display = 'none';
-                    } else {
-                        formContainer.style.display = 'block';
-                    }
-                });
-            }
-        });

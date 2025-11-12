@@ -143,13 +143,13 @@ header .site-logo img {
 }
 
 .cart-icon {
-    font-size: 1.4rem; /* Ajuste conforme necessário */
+    font-size: 1.6rem; /* Ajuste conforme necessário */
     line-height: 1;
 }
 
 .user-icon { /* Certifique-se de que o estilo do user-icon também contribui para o alinhamento */
-    width: 30px;
-    height: 30px;
+    width: 7vh;
+    height: 7vh;
     border-radius: 50%;
     cursor: pointer;
     object-fit: cover;
@@ -159,8 +159,8 @@ header .site-logo img {
 
 /* [NOVO] Estilo para o avatar padrão (a inicial) */
 .user-avatar-default {
-    width: 30px;
-    height: 30px;
+    width: 6vh;
+    height: 6vh;
     border-radius: 50%;
     background-color: var(--cor-destaque, #a67c52); /* Usa a cor de destaque do seu tema */
     color: white;
