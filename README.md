@@ -16,31 +16,123 @@ O repositório está organizado seguindo a arquitetura MVC:
 
 /
 
-├── controller/   # Lógica de controle e fluxo da aplicação
-
-├── css/          # Arquivos de estilização
-
-├── icones/       # Ícones utilizados na interface
-
-├── img/          # Imagens de produtos e assets
-
-├── model/        # Classes de modelo e lógica de negócios
-
-├── php/          # Scripts PHP auxiliares
-
-├── view/         # Arquivos de apresentação (HTML)
-
-├── cadcliente.php
-
-├── cadfunc.php
-
-├── cadprod.php
-
-├── login.php
-
-├── aliexpresso.sql # Script do banco de dados
-
-└── ... (outros arquivos)
+├── 📁 assets
+│   ├── 📁 css
+│   │   ├── 🎨 admin.css
+│   │   ├── 🎨 carrinho.css
+│   │   ├── 🎨 dashVendas.css
+│   │   ├── 🎨 footer.css
+│   │   ├── 🎨 header.css
+│   │   ├── 🎨 home.css
+│   │   └── 🎨 produtos.css
+│   ├── 📁 images
+│   │   └── 📁 produtos
+│   │       ├── 🖼️ 6858d1cb53dde-Chocolate C amargo.png
+│   │       ├── 🖼️ 6858d1d25867c-Chocolate C amargo.png
+│   │       ├── 🖼️ 6858d1e2954bf-Chocolate C amargo.png
+│   │       ├── 🖼️ 6858d1e57d382-Chocolate C amargo.png
+│   │       ├── 🖼️ 6858d2df39579-Chocolate C amargo.png
+│   │       ├── 🖼️ 68634f970f302-Chocolate C amargo.png
+│   │       ├── 🖼️ 68634fcf4ffeb-monster.jpg
+│   │       ├── 🖼️ 686350448fd93-capsula.jpg
+│   │       ├── 🖼️ 6863509076b72-3coracoes.jpg
+│   │       ├── 🖼️ 68dc7fd8d79fa-coffeeCup.png
+│   │       └── 🖼️ 68dc804ab3d71-coffeeCup.png
+│   ├── 📁 img
+│   │   ├── 📁 produtos
+│   │   │   ├── 🖼️ 3coracoes.jpg
+│   │   │   ├── 🖼️ Chocolate C amargo.png
+│   │   │   ├── 🖼️ Chocolate.png
+│   │   │   ├── 🖼️ camargo.png
+│   │   │   ├── 🖼️ capsula.jpg
+│   │   │   └── 🖼️ monster.jpg
+│   │   ├── 🖼️ Facebook.png
+│   │   ├── 🖼️ Instagram.png
+│   │   ├── 🖼️ Linkedin.png
+│   │   ├── 🖼️ Twitter.png
+│   │   ├── 🖼️ Youtube.png
+│   │   ├── 🖼️ app_store.png
+│   │   ├── 🖼️ boleto.png
+│   │   ├── 🖼️ elo.png
+│   │   ├── 🖼️ g_play.png
+│   │   ├── 🖼️ hipercard.png
+│   │   ├── 🖼️ icon_site.png
+│   │   ├── 🖼️ logo_aliexpresso.png
+│   │   ├── 🖼️ logo_aliexpresso2.png
+│   │   ├── 🖼️ logo_aliexpresso3.png
+│   │   ├── 🖼️ logo_aliexpresso4.png
+│   │   ├── 🖼️ logo_apple.png
+│   │   ├── 🖼️ mastercard.png
+│   │   ├── 🖼️ pix.png
+│   │   ├── 🖼️ qr-code.png
+│   │   └── 🖼️ visa.png
+│   └── 📁 js
+│       ├── 📄 carrinho.js
+│       ├── 📄 cart-ajax.js
+│       ├── 📄 header.js
+│       └── 📄 image-preview.js
+├── 📁 controller
+│   ├── 🐘 AdminController.php
+│   ├── 🐘 CarrinhoController.php
+│   ├── 🐘 ProdutoController.php
+│   ├── 🐘 UsuarioController.php
+│   ├── 🐘 carrinho.php
+│   ├── 🐘 pageController.php
+│   └── 🐘 pedidoController.php
+├── 📁 database
+│   ├── 📄 aliexpresso(old).sql
+│   └── 📄 aliexpresso.sql
+├── 📁 helper
+│   ├── 📁 export
+│   │   ├── 🐘 CSVExportAdapter.php
+│   │   ├── 🐘 ExportadorInterface.php
+│   │   └── 🐘 GeradorCSV.php
+│   └── 🐘 Auth.php
+├── 📁 model
+│   ├── 📁 produtos
+│   │   ├── 🐘 CafeEmGraos.php
+│   │   ├── 🐘 CapsulaCafe.php
+│   │   ├── 🐘 Doces.php
+│   │   ├── 🐘 Energeticos.php
+│   │   └── 🐘 ProdutoCafeina.php
+│   ├── 🐘 CarrinhoFactory.php
+│   ├── 🐘 CupomModel.php
+│   ├── 🐘 Database.php
+│   ├── 🐘 EnderecoModel.php
+│   ├── 🐘 ItemPedidoModel.php
+│   ├── 🐘 PedidoModel.php
+│   ├── 🐘 ProdutoFactory.php
+│   ├── 🐘 ProdutoModel.php
+│   └── 🐘 UsuarioModel.php
+├── 📁 view
+│   ├── 📁 Carrinho
+│   │   ├── 🐘 aaa.php
+│   │   └── 🐘 index.php
+│   ├── 📁 admin
+│   │   ├── 🐘 cupom_crud.php
+│   │   ├── 🐘 dashboard.php
+│   │   ├── 🐘 dashboard_vendas.php
+│   │   ├── 🐘 produto_crud.php
+│   │   └── 🐘 user_crud.php
+│   ├── 📁 home
+│   │   └── 🐘 index.php
+│   ├── 📁 pedidos
+│   │   └── 🐘 historico.php
+│   ├── 📁 produtos
+│   │   ├── 🐘 form.php
+│   │   └── 🐘 index.php
+│   └── 📁 usuarios
+│       ├── 🐘 Form.php
+│       ├── 🐘 Listar.php
+│       ├── 🐘 Login.php
+│       ├── 🐘 Perfil.php
+│       └── 🐘 Register.php
+├── ⚙️ .htaccess
+├── 📄 LICENSE
+├── 📝 README.md
+├── 🐘 autoloader.php
+├── 🐘 config.php
+└── 🐘 index.php
 ## ⚙️ Instalação e Execução
 Para rodar este projeto localmente, siga os passos abaixo:
 
