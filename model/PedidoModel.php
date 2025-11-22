@@ -5,43 +5,50 @@ use PDO;
 
 require_once __DIR__ . '/Database.php';
 
-class PedidoModel {
-    
+class PedidoModel
+{
+
     private $pdo; // Esta propriedade irá guardar a CONEXÃO PDO
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pdo = \Database::getInstance()->getConnection();
     }
 
-    public function findCartByUserId($userId) {
+    public function findCartByUserId($userId)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM pedidos WHERE id_usuario = :userId AND status = 'carrinho'");
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function createCartForUser($userId) {
+    public function createCartForUser($userId)
+    {
         $stmt = $this->pdo->prepare("INSERT INTO pedidos (id_usuario, data_pedido, status) VALUES (:userId, NOW(), 'carrinho')");
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
         return $this->pdo->lastInsertId();
     }
-    
-    public function updateTotal($pedidoId, $total) {
+
+    public function updateTotal($pedidoId, $total)
+    {
         $stmt = $this->pdo->prepare("UPDATE pedidos SET valor_total = :total WHERE id_pedido = :pedidoId");
         $stmt->bindValue(':total', $total);
         $stmt->bindValue(':pedidoId', $pedidoId);
         return $stmt->execute();
     }
 
-    public function findOrdersByUserId($userId) {
+    public function findOrdersByUserId($userId)
+    {
         $stmt = $this->pdo->prepare("SELECT * FROM pedidos WHERE id_usuario = :userId AND status != 'carrinho' ORDER BY data_pedido DESC");
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
-    public function finalizeCart($pedidoId, $total) {
+    public function finalizeCart($pedidoId, $total)
+    {
         $stmt = $this->pdo->prepare(
             "UPDATE pedidos 
              SET status = 'concluido', data_pedido = NOW(), valor_total = :total 
@@ -52,24 +59,26 @@ class PedidoModel {
         return $stmt->execute();
     }
 
-    public function finalizeCartWithDiscount($pedidoId, $total, $desconto, $valorFinal) {
-    $stmt = $this->pdo->prepare(
-        "UPDATE pedidos 
+    public function finalizeCartWithDiscount($pedidoId, $total, $desconto, $valorFinal)
+    {
+        $stmt = $this->pdo->prepare(
+            "UPDATE pedidos 
          SET status = 'concluido',
              data_pedido = NOW(),
              valor_total = :total,
              desconto = :desconto,
              valor_final = :valorFinal
          WHERE id_pedido = :pedidoId"
-    );
-    $stmt->bindValue(':total', $total);
-    $stmt->bindValue(':desconto', $desconto);
-    $stmt->bindValue(':valorFinal', $valorFinal);
-    $stmt->bindValue(':pedidoId', $pedidoId);
-    return $stmt->execute();
-}
+        );
+        $stmt->bindValue(':total', $total);
+        $stmt->bindValue(':desconto', $desconto);
+        $stmt->bindValue(':valorFinal', $valorFinal);
+        $stmt->bindValue(':pedidoId', $pedidoId);
+        return $stmt->execute();
+    }
 
-    public function getSalesStats() {
+    public function getSalesStats()
+    {
         // Agora usamos valor_final em vez de valor_total
         $stmt = $this->pdo->prepare(
             "SELECT 
@@ -82,7 +91,8 @@ class PedidoModel {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function getRecentOrders($limit = 5) {
+    public function getRecentOrders($limit = 5)
+    {
         // Esta query busca os pedidos e junta (JOIN) com a tabela de usuários para pegar o nome
         $stmt = $this->pdo->prepare(
             "SELECT p.id_pedido, u.nome as nome_cliente, p.data_pedido, p.valor_total
@@ -97,15 +107,17 @@ class PedidoModel {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function countCompletedOrdersByUserId($userId) {
+    public function countCompletedOrdersByUserId($userId)
+    {
         $stmt = $this->pdo->prepare("SELECT COUNT(id_pedido) as total FROM pedidos WHERE id_usuario = :userId AND status != 'carrinho'");
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $result ? (int)$result['total'] : 0;
+        return $result ? (int) $result['total'] : 0;
     }
 
-    public function getLastFiveOrdersTotal($userId) {
+    public function getLastFiveOrdersTotal($userId)
+    {
         $stmt = $this->pdo->prepare(
             "SELECT SUM(valor_final) as total
             FROM (
@@ -119,6 +131,42 @@ class PedidoModel {
         $stmt->bindValue(':userId', $userId);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ? (float)$result['total'] : 0;
+        return $result ? (float) $result['total'] : 0;
+    }
+
+
+    public function finalizarPedido(int $idPedido, string $status, string $metodoPagamento = 'Cartão')
+    {
+        // [CORRIGIDO] Agora usa 'forma_pagamento' conforme a sua tabela.
+        // Também garante que o valor_final seja atualizado para evitar erros de relatório futuro.
+
+        $sql = "UPDATE pedidos 
+                SET status = :status, 
+                    data_pedido = NOW(), 
+                    forma_pagamento = :pgto,
+                    valor_final = valor_total  -- Garante que o valor final seja preenchido
+                WHERE id_pedido = :id_pedido";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            ':status' => $status,
+            ':pgto' => $metodoPagamento,
+            ':id_pedido' => $idPedido
+        ]);
+    }
+
+    public function contarPedidosAprovados($idUsuario)
+    {
+        $sql = "SELECT COUNT(*) FROM pedidos WHERE id_usuario = :id_usuario AND status = 'Aprovado'";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([':id_usuario' => $idUsuario]);
+        return (int) $stmt->fetchColumn();
+    }
+    public function getById($idPedido)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM pedidos WHERE id_pedido = ?");
+        $stmt->execute([$idPedido]);
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 }

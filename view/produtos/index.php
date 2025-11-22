@@ -19,6 +19,28 @@
         }
         .cart-notification.error { background-color: #dc3545; }
         .cart-notification.show { opacity: 1; transform: translateY(0); }
+
+        /* [NOVO] Estilos para os links de detalhes */
+        .link-detalhes {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .card-produto img {
+            transition: transform 0.3s ease;
+        }
+        /* Pequeno zoom ao passar o mouse na imagem para indicar clique */
+        .card-produto:hover img {
+            transform: scale(1.03);
+        }
+        .card-info h3 a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s;
+        }
+        .card-info h3 a:hover {
+            color: #a3835f; /* Cor de destaque do tema Café */
+        }
     </style>
 </head>
 <body>
@@ -27,23 +49,39 @@
     <main class="catalog-container">
         <h1>Conheça Nossos Produtos</h1>
         <div class="grid-produtos">
-            <?php foreach($produtos as $produto): ?>
-                <div class="card-produto">
-                    <img src="<?= htmlspecialchars($produto['imagem']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                    <div class="card-info">
-                        <h3><?= htmlspecialchars($produto['nome']) ?></h3>
-                        <p class="descricao"><?= htmlspecialchars($produto['descricao']) ?></p>
-                        <strong class="preco">R$ <?= number_format($produto['preco'], 2, ',', '.') ?></strong>
-                        <a href="index.php?page=carrinho&action=ajax_add&id=<?= $produto['id_produto'] ?>" class="btn-comprar js-add-to-cart">Adicionar ao Carrinho</a>
+            <?php if (!empty($produtos)): ?>
+                <?php foreach($produtos as $produto): ?>
+                    <div class="card-produto">
+                        
+                        <a href="index.php?page=produto&action=detalhes&id=<?= $produto['id_produto'] ?>" class="link-detalhes">
+                            <img src="<?= htmlspecialchars($produto['imagem']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                        </a>
+
+                        <div class="card-info">
+                            
+                            <h3>
+                                <a href="index.php?page=produto&action=detalhes&id=<?= $produto['id_produto'] ?>">
+                                    <?= htmlspecialchars($produto['nome']) ?>
+                                </a>
+                            </h3>
+
+                            <p class="descricao"><?= htmlspecialchars($produto['descricao']) ?></p>
+                            
+                            <strong class="preco">R$ <?= number_format($produto['preco'], 2, ',', '.') ?></strong>
+                            
+                            <a href="index.php?page=carrinho&action=ajax_add&id=<?= $produto['id_produto'] ?>" class="btn-comprar js-add-to-cart">
+                                Adicionar ao Carrinho
+                            </a>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="text-align: center; width: 100%; font-size: 18px; color: #666;">Nenhum produto encontrado.</p>
+            <?php endif; ?>
         </div>
     </main>
 
     <?php \Aliexpresso\Controller\PageController::renderFooter(); ?>
 
-    <!-- Carrega o novo script de AJAX para o carrinho -->
-    <script src="assets/js/cart-ajax.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
             <div class="carrinho-vazio">
                 <div class="carrinho-vazio card">
                     <p>Seu carrinho está vazio.</p>
-                    <button class="btn"><a href="index.php?page=produto">Explorar Produtos</a></button>
+                    <a href="index.php?page=produto" class="btn" style="text-decoration: none; display: inline-block; padding: 10px 20px;">Explorar Produtos</a>
                 </div>
             </div>
         <?php else: ?>
@@ -29,7 +29,7 @@
                             <div class="info-produto-carrinho">
                                 <h3><?= htmlspecialchars($item['nome']) ?></h3>
                                 <p><?= htmlspecialchars($item['descricao']) ?></p>
-                                <!-- [ATUALIZADO] Botão de remover funcional -->
+                                
                                 <a href="index.php?page=carrinho&action=remove&id=<?= $item['id'] ?>" class="btn-remover-item">
                                     <i class="fas fa-trash-alt"></i> Remover
                                 </a>
@@ -75,7 +75,6 @@
                         <?php endif; ?>
                     </div>
 
-                    <!-- [ATUALIZADO] Mensagem de feedback do cupom com botão de fechar -->
                     <?php if (isset($_SESSION['coupon_message'])): ?>
                         <div class="coupon-message <?= $_SESSION['coupon_message']['type'] ?>">
                             <span><?= $_SESSION['coupon_message']['text'] ?></span>
@@ -104,9 +103,11 @@
                         <strong>Total:</strong>
                         <strong>R$ <?= number_format($total, 2, ',', '.') ?></strong>
                     </div>
-                    <a href="./?page=pedido&action=finalizar" style="text-decoration: none;">
+                    
+                    <a href="./?page=carrinho&action=finalizar" style="text-decoration: none;">
                         <button class="btn-finalizar">Finalizar Compra</button>
                     </a>
+
                     <a href="index.php?page=produto" class="btn-continuar-comprando">Continuar Comprando</a>
                 </aside>
             </div>

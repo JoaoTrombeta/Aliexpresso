@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12-Nov-2025 às 21:23
--- Versão do servidor: 10.4.27-MariaDB
--- versão do PHP: 8.2.0
+-- Tempo de geração: 22/11/2025 às 04:10
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,31 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cupons`
+-- Estrutura para tabela `avaliacoes`
+--
+
+CREATE TABLE `avaliacoes` (
+  `id_avaliacao` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `nota` int(11) NOT NULL,
+  `comentario` text DEFAULT NULL,
+  `imagem` varchar(255) DEFAULT NULL,
+  `data_avaliacao` datetime DEFAULT current_timestamp(),
+  `sentimento` varchar(20) DEFAULT 'NEUTRO'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Despejando dados para a tabela `avaliacoes`
+--
+
+INSERT INTO `avaliacoes` (`id_avaliacao`, `id_produto`, `id_usuario`, `nota`, `comentario`, `imagem`, `data_avaliacao`, `sentimento`) VALUES
+(1, 5, 1, 5, 'ótimo, muito bom e realmente vale o preço', NULL, '2025-11-22 00:06:27', 'NEUTRO');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cupons`
 --
 
 CREATE TABLE `cupons` (
@@ -38,20 +62,24 @@ CREATE TABLE `cupons` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `cupons`
+-- Despejando dados para a tabela `cupons`
 --
 
 INSERT INTO `cupons` (`id_cupom`, `codigo`, `descricao`, `valor_desconto`, `tipo`, `data_validade`, `status`) VALUES
-(1, '10OFF', 'Desconta 10 reais do valor total da compra', '10.00', 'fixo', '2025-07-30', 'ativo'),
-(2, '10PERCENT', 'Desconta 10% do valor total na primeira compra', '10.00', 'percentual', NULL, 'ativo'),
-(3, 'FIDELIDADE-68DC6C2AC1BFB', 'Cupom de 10% por ter feito 5 compras!', '10.00', 'percentual', '2025-11-30', ''),
-(4, 'FIDELIDADE-68DC770B3D00A', 'Cupom de 10% por ter feito 10 compras!', '10.00', 'percentual', '2025-11-30', ''),
-(5, 'FIDELIDADE-68DC79E392C2D', 'Cupom de 10% por ter feito 15 compras!', '10.00', 'percentual', '2025-11-30', '');
+(1, '10OFF', 'Desconta 10 reais do valor total da compra', 10.00, 'fixo', '2025-07-30', 'ativo'),
+(2, '10PERCENT', 'Desconta 10% do valor total na primeira compra', 10.00, 'percentual', NULL, 'ativo'),
+(3, 'FIDELIDADE-68DC6C2AC1BFB', 'Cupom de 10% por ter feito 5 compras!', 10.00, 'percentual', '2025-11-30', ''),
+(4, 'FIDELIDADE-68DC770B3D00A', 'Cupom de 10% por ter feito 10 compras!', 10.00, 'percentual', '2025-11-30', ''),
+(5, 'FIDELIDADE-68DC79E392C2D', 'Cupom de 10% por ter feito 15 compras!', 10.00, 'percentual', '2025-11-30', ''),
+(6, 'DESC5A61', 'Cupom Promocional Gerado Automaticamente', 15.00, 'fixo', '2025-11-29', 'ativo'),
+(7, 'DESC3664', 'Cupom Promocional Gerado Automaticamente', 15.00, 'fixo', '2025-11-29', 'ativo'),
+(8, 'FIDELIDADE-69210626D4B41', 'Cupom de 20% por ter gasto R$500 ou mais nas últimas 5 compras!', 20.00, 'percentual', '2026-01-21', 'ativo'),
+(9, 'FIDELIDADE-692108278A4AA', 'Cupom de 20% por ter gasto R$500 ou mais nas últimas 5 compras!', 20.00, 'percentual', '2026-01-21', 'ativo');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `cupons_usados`
+-- Estrutura para tabela `cupons_usados`
 --
 
 CREATE TABLE `cupons_usados` (
@@ -63,7 +91,7 @@ CREATE TABLE `cupons_usados` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Extraindo dados da tabela `cupons_usados`
+-- Despejando dados para a tabela `cupons_usados`
 --
 
 INSERT INTO `cupons_usados` (`id_cupom_usado`, `id_cupom`, `id_usuario`, `id_pedido`, `data_uso`) VALUES
@@ -74,7 +102,7 @@ INSERT INTO `cupons_usados` (`id_cupom_usado`, `id_cupom`, `id_usuario`, `id_ped
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `enderecos`
+-- Estrutura para tabela `enderecos`
 --
 
 CREATE TABLE `enderecos` (
@@ -91,7 +119,7 @@ CREATE TABLE `enderecos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `enderecos`
+-- Despejando dados para a tabela `enderecos`
 --
 
 INSERT INTO `enderecos` (`id_endereco`, `id_usuario`, `cep`, `logradouro`, `numero`, `complemento`, `bairro`, `cidade`, `uf`, `is_principal`) VALUES
@@ -101,7 +129,7 @@ INSERT INTO `enderecos` (`id_endereco`, `id_usuario`, `cep`, `logradouro`, `nume
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `itens_pedido`
+-- Estrutura para tabela `itens_pedido`
 --
 
 CREATE TABLE `itens_pedido` (
@@ -113,43 +141,87 @@ CREATE TABLE `itens_pedido` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Extraindo dados da tabela `itens_pedido`
+-- Despejando dados para a tabela `itens_pedido`
 --
 
 INSERT INTO `itens_pedido` (`id_item`, `id_pedido`, `id_produto`, `quantidade`, `preco_unitario`) VALUES
-(79, 1, 3, 1, '70.00'),
-(80, 1, 1, 1, '20.00'),
-(81, 1, 2, 6, '10.00'),
-(94, 2, 3, 3, '70.00'),
-(95, 3, 2, 1, '10.00'),
-(96, 4, 4, 1, '65.87'),
-(97, 5, 1, 1, '20.00'),
-(123, 6, 1, 1, '20.00'),
-(124, 6, 2, 1, '10.00'),
-(126, 7, 1, 1, '20.00'),
-(127, 7, 2, 1, '10.00'),
-(129, 8, 1, 1, '20.00'),
-(130, 8, 2, 1, '10.00'),
-(132, 9, 2, 2, '10.00'),
-(133, 10, 4, 1, '65.87'),
-(137, 11, 3, 1, '70.00'),
-(138, 11, 1, 1, '20.00'),
-(139, 11, 2, 1, '10.00'),
-(140, 12, 1, 1, '20.00'),
-(141, 13, 2, 1, '10.00'),
-(142, 14, 2, 1, '10.00'),
-(143, 15, 2, 1, '10.00'),
-(147, 16, 3, 1, '70.00'),
-(148, 16, 1, 1, '20.00'),
-(149, 16, 2, 1, '10.00'),
-(571, 17, 1, 348, '20.00'),
-(572, 17, 4, 2, '65.87'),
-(573, 17, 2, 24, '10.00');
+(79, 1, 3, 1, 70.00),
+(80, 1, 1, 1, 20.00),
+(81, 1, 2, 6, 10.00),
+(94, 2, 3, 3, 70.00),
+(95, 3, 2, 1, 10.00),
+(96, 4, 4, 1, 65.87),
+(97, 5, 1, 1, 20.00),
+(123, 6, 1, 1, 20.00),
+(124, 6, 2, 1, 10.00),
+(126, 7, 1, 1, 20.00),
+(127, 7, 2, 1, 10.00),
+(129, 8, 1, 1, 20.00),
+(130, 8, 2, 1, 10.00),
+(132, 9, 2, 2, 10.00),
+(133, 10, 4, 1, 65.87),
+(137, 11, 3, 1, 70.00),
+(138, 11, 1, 1, 20.00),
+(139, 11, 2, 1, 10.00),
+(140, 12, 1, 1, 20.00),
+(141, 13, 2, 1, 10.00),
+(142, 14, 2, 1, 10.00),
+(143, 15, 2, 1, 10.00),
+(147, 16, 3, 1, 70.00),
+(148, 16, 1, 1, 20.00),
+(149, 16, 2, 1, 10.00),
+(571, 17, 1, 348, 20.00),
+(572, 17, 4, 2, 65.87),
+(573, 17, 2, 24, 10.00),
+(941, 18, 4, 100, 65.87),
+(943, 19, 1, 2, 20.00),
+(945, 20, 1, 2, 20.00),
+(947, 21, 1, 2, 20.00),
+(949, 22, 5, 2, 1200.00),
+(951, 23, 5, 2, 1200.00),
+(953, 24, 5, 2, 1200.00),
+(955, 25, 5, 2, 1200.00),
+(957, 26, 5, 2, 1200.00),
+(977, 27, 5, 1, 1200.00),
+(978, 28, 5, 1, 1200.00),
+(979, 29, 5, 1, 1200.00),
+(980, 30, 5, 1, 1200.00),
+(981, 31, 5, 1, 1200.00),
+(982, 32, 5, 1, 1200.00),
+(988, 33, 5, 1, 1200.00),
+(991, 34, 5, 1, 1200.00),
+(996, 35, 5, 1, 1200.00),
+(997, 36, 5, 1, 1200.00),
+(998, 37, 5, 1, 1200.00),
+(999, 38, 5, 1, 1200.00),
+(1000, 39, 5, 1, 1200.00),
+(1001, 40, 5, 1, 1200.00),
+(1002, 41, 5, 1, 1200.00),
+(1003, 42, 5, 1, 1200.00),
+(1004, 43, 5, 1, 1200.00),
+(1005, 44, 5, 1, 1200.00),
+(1006, 45, 5, 1, 1200.00),
+(1007, 46, 5, 1, 1200.00),
+(1008, 47, 5, 1, 1200.00),
+(1009, 48, 5, 1, 1200.00),
+(1010, 49, 5, 1, 1200.00),
+(1011, 50, 5, 1, 1200.00),
+(1012, 51, 5, 1, 1200.00),
+(1014, 52, 5, 1, 1200.00),
+(1016, 53, 5, 1, 1200.00),
+(1018, 54, 5, 1, 1200.00),
+(1020, 55, 5, 1, 1200.00),
+(1022, 56, 5, 1, 1200.00),
+(1024, 57, 5, 1, 1200.00),
+(1026, 58, 5, 1, 1200.00),
+(1028, 59, 5, 1, 1200.00),
+(1030, 60, 5, 1, 1200.00),
+(1032, 61, 5, 1, 1200.00);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `pedidos`
+-- Estrutura para tabela `pedidos`
 --
 
 CREATE TABLE `pedidos` (
@@ -164,33 +236,76 @@ CREATE TABLE `pedidos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Extraindo dados da tabela `pedidos`
+-- Despejando dados para a tabela `pedidos`
 --
 
 INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `data_pedido`, `status`, `forma_pagamento`, `valor_total`, `desconto`, `valor_final`) VALUES
-(1, 1, '2025-09-29 19:34:23', 'concluido', NULL, '150.00', '0.00', '150.00'),
-(2, 1, '2025-09-30 20:01:35', 'concluido', NULL, '210.00', '0.00', '210.00'),
-(3, 1, '2025-09-30 20:47:03', 'concluido', NULL, '10.00', '0.00', '10.00'),
-(4, 1, '2025-09-30 20:47:43', 'concluido', NULL, '65.87', '0.00', '65.87'),
-(5, 1, '2025-09-30 20:47:54', 'concluido', NULL, '20.00', '0.00', '20.00'),
-(6, 1, '2025-09-30 21:19:17', 'concluido', NULL, '30.00', '0.00', '30.00'),
-(7, 1, '2025-09-30 21:25:13', 'concluido', NULL, '30.00', '0.00', '30.00'),
-(8, 1, '2025-09-30 21:34:04', 'concluido', NULL, '30.00', '0.00', '30.00'),
-(9, 1, '2025-09-30 21:34:11', 'concluido', NULL, '20.00', '0.00', '20.00'),
-(10, 1, '2025-09-30 21:34:19', 'concluido', NULL, '65.87', '0.00', '65.87'),
-(11, 1, '2025-09-30 21:34:36', 'concluido', NULL, '100.00', '10.00', '90.00'),
-(12, 1, '2025-09-30 21:46:06', 'concluido', NULL, '20.00', '0.00', '20.00'),
-(13, 1, '2025-09-30 21:46:15', 'concluido', NULL, '10.00', '0.00', '10.00'),
-(14, 1, '2025-09-30 21:46:22', 'concluido', NULL, '10.00', '0.00', '10.00'),
-(15, 1, '2025-09-30 21:46:27', 'concluido', NULL, '10.00', '0.00', '10.00'),
-(16, 1, '2025-09-30 21:46:44', 'concluido', NULL, '100.00', '10.00', '90.00'),
-(17, 5, '2025-11-12 17:11:21', 'concluido', NULL, '7331.74', '0.00', '7331.74'),
-(18, 1, '2025-11-12 17:18:06', 'carrinho', NULL, '0.00', '0.00', '0.00');
+(1, 1, '2025-09-29 19:34:23', 'concluido', NULL, 150.00, 0.00, 150.00),
+(2, 1, '2025-09-30 20:01:35', 'concluido', NULL, 210.00, 0.00, 210.00),
+(3, 1, '2025-09-30 20:47:03', 'concluido', NULL, 10.00, 0.00, 10.00),
+(4, 1, '2025-09-30 20:47:43', 'concluido', NULL, 65.87, 0.00, 65.87),
+(5, 1, '2025-09-30 20:47:54', 'concluido', NULL, 20.00, 0.00, 20.00),
+(6, 1, '2025-09-30 21:19:17', 'concluido', NULL, 30.00, 0.00, 30.00),
+(7, 1, '2025-09-30 21:25:13', 'concluido', NULL, 30.00, 0.00, 30.00),
+(8, 1, '2025-09-30 21:34:04', 'concluido', NULL, 30.00, 0.00, 30.00),
+(9, 1, '2025-09-30 21:34:11', 'concluido', NULL, 20.00, 0.00, 20.00),
+(10, 1, '2025-09-30 21:34:19', 'concluido', NULL, 65.87, 0.00, 65.87),
+(11, 1, '2025-09-30 21:34:36', 'concluido', NULL, 100.00, 10.00, 90.00),
+(12, 1, '2025-09-30 21:46:06', 'concluido', NULL, 20.00, 0.00, 20.00),
+(13, 1, '2025-09-30 21:46:15', 'concluido', NULL, 10.00, 0.00, 10.00),
+(14, 1, '2025-09-30 21:46:22', 'concluido', NULL, 10.00, 0.00, 10.00),
+(15, 1, '2025-09-30 21:46:27', 'concluido', NULL, 10.00, 0.00, 10.00),
+(16, 1, '2025-09-30 21:46:44', 'concluido', NULL, 100.00, 10.00, 90.00),
+(17, 5, '2025-11-12 17:11:21', 'concluido', NULL, 7331.74, 0.00, 7331.74),
+(18, 1, '2025-11-21 21:38:39', 'concluido', NULL, 6587.00, 0.00, 6587.00),
+(19, 1, '2025-11-21 21:38:52', 'concluido', NULL, 40.00, 0.00, 40.00),
+(20, 1, '2025-11-21 21:38:55', 'concluido', NULL, 40.00, 0.00, 40.00),
+(21, 1, '2025-11-21 21:39:02', 'concluido', NULL, 40.00, 0.00, 40.00),
+(22, 1, '2025-11-21 21:47:11', 'concluido', NULL, 2400.00, 0.00, 2400.00),
+(23, 1, '2025-11-21 21:47:17', 'concluido', NULL, 2400.00, 0.00, 2400.00),
+(24, 1, '2025-11-21 21:47:24', 'concluido', NULL, 2400.00, 0.00, 2400.00),
+(25, 1, '2025-11-21 21:47:29', 'concluido', NULL, 2400.00, 0.00, 2400.00),
+(26, 1, '2025-11-21 21:47:35', 'concluido', NULL, 2400.00, 0.00, 2400.00),
+(27, 1, '2025-11-21 22:04:19', 'Aprovado', 'Cartão', 1200.00, 0.00, 0.00),
+(28, 1, '2025-11-21 22:04:50', 'Aprovado', 'Cartão', 1200.00, 0.00, 0.00),
+(29, 1, '2025-11-21 22:04:55', 'Aprovado', 'Cartão', 1200.00, 0.00, 0.00),
+(30, 1, '2025-11-21 22:05:01', 'Aprovado', 'Cartão', 1200.00, 0.00, 0.00),
+(31, 1, '2025-11-21 22:05:13', 'Aprovado', 'Cartão', 1200.00, 0.00, 0.00),
+(32, 1, '2025-11-21 22:06:27', 'Aprovado', 'Cartão', 1200.00, 0.00, 0.00),
+(33, 1, '2025-11-21 22:09:48', 'Aprovado', NULL, 1200.00, 0.00, 0.00),
+(34, 1, '2025-11-21 22:10:39', 'Aprovado', NULL, 1200.00, 0.00, 0.00),
+(35, 1, '2025-11-21 22:23:24', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(36, 1, '2025-11-21 22:23:44', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(37, 1, '2025-11-21 22:28:00', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(38, 1, '2025-11-21 22:28:07', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(39, 1, '2025-11-21 22:30:27', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(40, 1, '2025-11-21 22:30:42', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(41, 1, '2025-11-21 22:33:36', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(42, 1, '2025-11-21 22:35:22', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(43, 1, '2025-11-21 22:35:32', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(44, 1, '2025-11-21 22:35:40', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(45, 1, '2025-11-21 22:36:07', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(46, 1, '2025-11-21 22:36:16', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(47, 1, '2025-11-21 22:47:39', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(48, 1, '2025-11-21 22:53:23', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(49, 1, '2025-11-21 22:56:45', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(50, 1, '2025-11-21 22:57:30', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(51, 1, '2025-11-21 22:59:28', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(52, 1, '2025-11-21 23:02:17', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(53, 1, '2025-11-21 23:04:46', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(54, 1, '2025-11-21 23:05:03', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(55, 1, '2025-11-21 23:05:26', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(56, 1, '2025-11-21 23:06:21', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(57, 1, '2025-11-21 23:11:56', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(58, 1, '2025-11-21 23:12:13', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(59, 1, '2025-11-21 23:12:26', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(60, 1, '2025-11-21 23:13:38', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00),
+(61, 1, '2025-11-21 23:15:51', 'Aprovado', 'Cartão', 1200.00, 0.00, 1200.00);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `produtos`
+-- Estrutura para tabela `produtos`
 --
 
 CREATE TABLE `produtos` (
@@ -206,20 +321,20 @@ CREATE TABLE `produtos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `produtos`
+-- Despejando dados para a tabela `produtos`
 --
 
 INSERT INTO `produtos` (`id_produto`, `nome`, `descricao`, `preco`, `quantidade_estoque`, `categoria`, `id_usuario`, `imagem`, `status`) VALUES
-(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', '20.00', 200, 'doces', 2, 'assets/images/produtos/68634f970f302-Chocolate C amargo.png', 'a venda'),
-(2, 'Monster Tradicional', 'Bebida Energetica Monster Energy Green Com 473Ml', '10.00', 150, 'energetico', 2, 'assets/images/produtos/68634fcf4ffeb-monster.jpg', 'a venda'),
-(3, 'Café Au Lait Dolce Gusto', 'Nescafé Dolce Gusto com 10 cápsulas', '70.00', 100, 'capsula', 2, 'assets/images/produtos/686350448fd93-capsula.jpg', 'a venda'),
-(4, 'Café Espresso Gourmet 3 Corações', 'Café Torrado em Grãos Espresso Gourmet 3 Corações Pacote 500g', '65.87', 123, 'graos', 2, 'assets/images/produtos/6863509076b72-3coracoes.jpg', 'a venda'),
-(5, '121212', '12', '12.00', 10, 'capsula', NULL, 'assets/images/produtos/68dc804ab3d71-coffeeCup.png', 'a venda');
+(1, 'Chocolate cAMARGO', 'Chocolate meio cAMARGO', 20.00, 200, 'doces', 2, 'assets/images/produtos/68634f970f302-Chocolate C amargo.png', 'a venda'),
+(2, 'Monster Tradicional', 'Bebida Energetica Monster Energy Green Com 473Ml', 10.00, 150, 'energetico', 2, 'assets/images/produtos/68634fcf4ffeb-monster.jpg', 'a venda'),
+(3, 'Café Au Lait Dolce Gusto', 'Nescafé Dolce Gusto com 10 cápsulas', 70.00, 100, 'capsula', 2, 'assets/images/produtos/686350448fd93-capsula.jpg', 'a venda'),
+(4, 'Café Espresso Gourmet 3 Corações', 'Café Torrado em Grãos Espresso Gourmet 3 Corações Pacote 500g', 65.87, 123, 'graos', 2, 'assets/images/produtos/6863509076b72-3coracoes.jpg', 'a venda'),
+(5, '121212', '12', 1200.00, 10, 'capsula', NULL, 'assets/images/produtos/68dc804ab3d71-coffeeCup.png', 'a venda');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `usuarios`
+-- Estrutura para tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -233,7 +348,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Extraindo dados da tabela `usuarios`
+-- Despejando dados para a tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `imagem_perfil`, `data_cadastro`) VALUES
@@ -248,14 +363,22 @@ INSERT INTO `usuarios` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `imagem_
 --
 
 --
--- Índices para tabela `cupons`
+-- Índices de tabela `avaliacoes`
+--
+ALTER TABLE `avaliacoes`
+  ADD PRIMARY KEY (`id_avaliacao`),
+  ADD KEY `id_produto` (`id_produto`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Índices de tabela `cupons`
 --
 ALTER TABLE `cupons`
   ADD PRIMARY KEY (`id_cupom`),
   ADD UNIQUE KEY `codigo` (`codigo`);
 
 --
--- Índices para tabela `cupons_usados`
+-- Índices de tabela `cupons_usados`
 --
 ALTER TABLE `cupons_usados`
   ADD PRIMARY KEY (`id_cupom_usado`),
@@ -264,14 +387,14 @@ ALTER TABLE `cupons_usados`
   ADD KEY `id_pedido` (`id_pedido`);
 
 --
--- Índices para tabela `enderecos`
+-- Índices de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
   ADD PRIMARY KEY (`id_endereco`),
   ADD KEY `idx_id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `itens_pedido`
+-- Índices de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD PRIMARY KEY (`id_item`),
@@ -279,35 +402,41 @@ ALTER TABLE `itens_pedido`
   ADD KEY `id_produto` (`id_produto`);
 
 --
--- Índices para tabela `pedidos`
+-- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD PRIMARY KEY (`id_pedido`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
--- Índices para tabela `produtos`
+-- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`id_produto`),
   ADD KEY `id_vendedor` (`id_usuario`);
 
 --
--- Índices para tabela `usuarios`
+-- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT de tabelas despejadas
+-- AUTO_INCREMENT para tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `avaliacoes`
+--
+ALTER TABLE `avaliacoes`
+  MODIFY `id_avaliacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `cupons`
 --
 ALTER TABLE `cupons`
-  MODIFY `id_cupom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_cupom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `cupons_usados`
@@ -325,13 +454,13 @@ ALTER TABLE `enderecos`
 -- AUTO_INCREMENT de tabela `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
-  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=842;
+  MODIFY `id_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1033;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -346,11 +475,18 @@ ALTER TABLE `usuarios`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Restrições para despejos de tabelas
+-- Restrições para tabelas despejadas
 --
 
 --
--- Limitadores para a tabela `cupons_usados`
+-- Restrições para tabelas `avaliacoes`
+--
+ALTER TABLE `avaliacoes`
+  ADD CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`),
+  ADD CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+
+--
+-- Restrições para tabelas `cupons_usados`
 --
 ALTER TABLE `cupons_usados`
   ADD CONSTRAINT `cupons_usados_ibfk_1` FOREIGN KEY (`id_cupom`) REFERENCES `cupons` (`id_cupom`),
@@ -358,20 +494,20 @@ ALTER TABLE `cupons_usados`
   ADD CONSTRAINT `cupons_usados_ibfk_3` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`);
 
 --
--- Limitadores para a tabela `enderecos`
+-- Restrições para tabelas `enderecos`
 --
 ALTER TABLE `enderecos`
   ADD CONSTRAINT `fk_endereco_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limitadores para a tabela `itens_pedido`
+-- Restrições para tabelas `itens_pedido`
 --
 ALTER TABLE `itens_pedido`
   ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`id_pedido`) REFERENCES `pedidos` (`id_pedido`),
   ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`);
 
 --
--- Limitadores para a tabela `pedidos`
+-- Restrições para tabelas `pedidos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
