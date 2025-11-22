@@ -10,31 +10,37 @@ class AvaliacaoModel {
         $this->pdo = \Database::getInstance()->getConnection();
     }
 
-    // Cria uma nova avaliação
-    public function create($idProduto, $idUsuario, $nota, $comentario, $imagem = null) {
-        $sql = "INSERT INTO avaliacoes (id_produto, id_usuario, nota, comentario, imagem, data_avaliacao) 
-                VALUES (:prod, :user, :nota, :coment, :img, NOW())";
+    public function create($idProduto, $idUsuario, $nota, $comentario, $imagem, $dadosIA = null) {
+        $sql = "INSERT INTO avaliacoes (
+                    id_produto, id_usuario, nota, comentario, imagem, data_avaliacao,
+                    sentimento_ia, score_ia
+                ) VALUES (?, ?, ?, ?, ?, NOW(), ?, ?)";
         
+        $sentimento = $dadosIA['sentimento'] ?? 'Neutro';
+        $score = $dadosIA['score'] ?? 0;
+
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
-            ':prod' => $idProduto,
-            ':user' => $idUsuario,
-            ':nota' => $nota,
-            ':coment' => $comentario,
-            ':img' => $imagem
+            $idProduto, 
+            $idUsuario, 
+            $nota, 
+            $comentario, 
+            $imagem,
+            $sentimento,
+            $score
         ]);
     }
 
-    // Busca todas as avaliações de um produto (com o nome do usuário)
     public function getByProduct($idProduto) {
-        $sql = "SELECT a.*, u.nome as nome_usuario 
+        // [CORREÇÃO] Busca u.imagem_perfil (o caminho completo salvo no UsuarioController)
+        $sql = "SELECT a.*, u.nome as nome_usuario, u.imagem_perfil as foto_usuario
                 FROM avaliacoes a
                 JOIN usuarios u ON a.id_usuario = u.id_usuario
-                WHERE a.id_produto = :prod
+                WHERE a.id_produto = ?
                 ORDER BY a.data_avaliacao DESC";
-        
+                
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':prod' => $idProduto]);
+        $stmt->execute([$idProduto]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
