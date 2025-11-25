@@ -98,7 +98,7 @@ use Aliexpresso\Helper\Auth;
                 <?php foreach ($avaliacoes as $av): ?>
                     <div class="review-card">
                         <!-- Avatar -->
-                        <img src="<?= $av['foto_usuario'] ? 'assets/images/perfil/'.$av['foto_usuario'] : 'assets/img/icon_site.png' ?>" class="review-avatar">
+                        <img src="<?= $av['foto_usuario'] ? './assets/images/perfil/'.$av['foto_usuario'] : 'assets/img/icon_site.png' ?>" class="review-avatar">
                         
                         <div class="review-content">
                             <div class="review-header">

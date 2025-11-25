@@ -58,6 +58,16 @@ class EnderecoModel
     }
 
     /**
+     * [NOVO] Remove o status de principal de um endereço específico.
+     */
+    public function removePrincipal(int $userId, int $enderecoId)
+    {
+        $sql = "UPDATE enderecos SET is_principal = 0 WHERE id_usuario = ? AND id_endereco = ?";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$userId, $enderecoId]);
+    }
+
+    /**
      * Atualiza um endereço existente.
      */
     public function update(int $enderecoId, int $userId, array $data): bool

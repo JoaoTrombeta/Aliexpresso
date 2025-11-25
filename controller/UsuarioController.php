@@ -83,6 +83,25 @@
             }
         }
 
+        public function unsetPrincipalAddress() {
+            if (!Auth::isLoggedIn()) {
+                header('Location: index.php?page=usuario&action=login');
+                exit();
+            }
+
+            $userId = Auth::user()['id_usuario'];
+            $enderecoId = (int)($_GET['id'] ?? 0);
+
+            if ($enderecoId > 0) {
+                // Chama o método novo do model
+                $this->enderecoModel->removePrincipal($userId, $enderecoId);
+                $_SESSION['form_message'] = ['text' => 'Endereço não é mais o principal.', 'type' => 'success'];
+            }
+
+            header('Location: index.php?page=usuario&action=perfil');
+            exit();
+        }
+
         public function logout() {
             session_unset();
             session_destroy();
@@ -90,11 +109,6 @@
             exit();
         }
 
-        // --- NOVAS AÇÕES PARA GERIR MORADAS ---
-
-        /**
-         * [NOVO] Mostra a página de perfil e moradas do utilizador.
-         */
         public function perfil() {
             if (!Auth::isLoggedIn()) {
                 header('Location: index.php?page=usuario&action=login');
@@ -103,21 +117,22 @@
 
             $userId = Auth::user()['id_usuario'];
             
-            // Busca os dados do utilizador (Ex: nome, email)
+            // Busca os dados do utilizador
             $user = $this->userModel->getById($userId);
             
             // Busca a lista de moradas guardadas
             $enderecos = $this->enderecoModel->getByUserId($userId);
             
-            // Verifica se há um formulário de edição pré-preenchido (para o VIACEP)
+            // Verifica se há um formulário de edição pré-preenchido
             $enderecoParaEditar = null;
             if (isset($_GET['edit_id'])) {
                 $enderecoParaEditar = $this->enderecoModel->getById((int)$_GET['edit_id'], $userId);
             }
 
-            // Carrega a view e passa os dados
-            require_once __DIR__ . '/../view/usuarios/perfil.php';
-        }
+            // A view vai decidir se mostra o formulário de edição, novo endereço ou perfil 
+            // baseando-se na existência de $enderecoParaEditar ou $_GET['new_address']
+            require_once __DIR__ . '/../view/usuarios/Perfil.php';
+        }    
 
         /**
          * [NOVO] Salva uma morada (nova ou editada).

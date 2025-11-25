@@ -1,0 +1,319 @@
+/* assets/css/perfil.css */
+
+/* --- Layout Principal --- */
+.perfil-dashboard {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    align-items: flex-start; /* Alinha as colunas no topo */
+    min-height: 600px;
+}
+
+/* Responsividade: Em telemóveis, empilha as colunas */
+@media (max-width: 850px) {
+    .perfil-dashboard {
+        flex-direction: column-reverse; /* Perfil/Form em cima, Lista em baixo */
+    }
+    .coluna-esquerda, .coluna-direita {
+        width: 100%;
+        flex: none;
+    }
+}
+
+/* --- COLUNA ESQUERDA: Lista de Endereços --- */
+.coluna-esquerda {
+    flex: 1.4; /* Ocupa cerca de 60% */
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    height: 650px; /* Altura fixa */
+    overflow: hidden; /* Esconde o que transbordar */
+    border: 1px solid #e6dcc3; /* Tom de café suave */
+}
+
+.lista-header {
+    background-color: #5D4037; /* Cor primária do seu tema */
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lista-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.btn-novo-endereco {
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    border: 1px solid rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-novo-endereco:hover {
+    background-color: rgba(255,255,255,0.4);
+}
+
+/* Área de Scroll */
+.lista-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    overflow-y: auto; /* Scroll vertical automático */
+    background-color: #fffbf2; /* Fundo creme bem claro */
+}
+
+/* Scrollbar personalizada */
+.lista-content::-webkit-scrollbar { width: 8px; }
+.lista-content::-webkit-scrollbar-track { background: #f0f0f0; }
+.lista-content::-webkit-scrollbar-thumb { background-color: #a67c52; border-radius: 4px; }
+
+/* Card de Endereço */
+.endereco-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #a67c52;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+}
+
+.endereco-card:hover {
+    transform: translateX(3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.endereco-card.principal {
+    border-left-color: #27ae60; /* Verde para principal */
+    background-color: #fafffb;
+}
+
+.endereco-card.ativo-edicao {
+    border-color: #5D4037;
+    background-color: #fff8e1; /* Destaque quando está a editar este item */
+}
+
+.endereco-info p {
+    margin: 4px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.endereco-info .rua {
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+}
+
+.badge-principal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid #c8e6c9;
+}
+
+.endereco-acoes {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-acao-sm {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #666;
+    background: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.btn-acao-sm:hover {
+    border-color: #a67c52;
+    color: #a67c52;
+}
+
+.btn-acao-sm.delete:hover {
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+
+/* --- COLUNA DIREITA: Perfil ou Formulário --- */
+.coluna-direita {
+    flex: 1; /* Ocupa cerca de 40% */
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid #e6dcc3;
+}
+
+/* MODO 1: Visualização de Perfil */
+.perfil-view {
+    padding: 3rem 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(to bottom, #5D4037 150px, #fff 150px); /* Efeito de cabeçalho colorido */
+    border-radius: 12px;
+}
+
+.avatar-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-container span {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #5D4037;
+}
+
+.perfil-info h2 {
+    margin: 0;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.perfil-info p {
+    color: #777;
+    margin-top: 5px;
+}
+
+/* MODO 2: Formulário */
+.form-view {
+    padding: 2rem;
+    animation: slideIn 0.3s ease;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+}
+
+.form-header h3 {
+    margin: 0;
+    color: #5D4037;
+}
+
+.btn-close {
+    font-size: 1.5rem;
+    color: #999;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.btn-submit:hover { background-color: #219150; }
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Botão de Remover Principal (Estrela Riscada) --- */
+.btn-star-remove {
+    color: #f1c40f !important; /* Cor Dourada */
+    border-color: #f1c40f !important;
+    position: relative;
+}
+
+.btn-star-remove:hover {
+    background-color: #fff9c4;
+}
+
+/* Cria o traço sobre a estrela usando um pseudo-elemento */
+.btn-star-remove i {
+    position: relative;
+    display: inline-block;
+}
+
+.btn-star-remove i::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140%; /* Um pouco maior que a estrela */
+    height: 2px; /* Espessura do risco */
+    background-color: #c62828; /* Vermelho escuro */
+    transform: translate(-50%, -50%) rotate(-45deg); /* Centraliza e rotaciona */
+    pointer-events: none;
+}
